@@ -94,12 +94,12 @@ LET vCols = RangeMax(vCols, FieldValue('ColNo',v));
 NEXT v
 TRACE $(vCols) columns found in spreadsheet;
 
-LET vPrefix = 'GoogelSheetData:';
+LET vPrefix = 'GoogleSheetData:';
 FOR v = 1 TO vCols
 	LET vColName = Lookup('@Value','ColNo',v,'GoogleSheetRaw');
     WHEN Len(vColName) = 0 LET vColName = 'Col$(v)';
     TRACE $(v) = $(vColName);
-    WHEN v > 1 LET vPrefix = 'LEFT JOIN (GoogelSheetData)';
+    WHEN v > 1 LET vPrefix = 'LEFT JOIN (GoogleSheetData)';
     $(vPrefix)
     LOAD 
     	RowNo
