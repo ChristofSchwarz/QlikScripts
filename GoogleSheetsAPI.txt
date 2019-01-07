@@ -1,0 +1,108 @@
+// needed to encode url parameters
+EncodeChars: MAPPING LOAD * INLINE [
+  ' ' = %20
+  '/' = %2F
+] (no labels, delimiter is '=');
+
+/*
+To get a RefreshToken ...
+Create a project at https://console.developers.google.com
+Under Credentials add a "Oauth 2.0 client ID" which is of type Web Client 
+Note down its clientID and add below into UserSettings section.
+As "Authorized redirect URIs" put https://developers.google.com/oauthplayground
+Note down the clientSecret and add below into UserSettings section
+
+go to https://developers.google.com/oauthplayground/
+under settings on the right checkmark "Use your own OAuth credentials" and reuse ClientID and ClientSecret
+Follow the Step 1  the left (taking you to a user consent, which you have to accept)
+Under Step 2 click "Exchange authorization code for tokens"
+Note down the Refresh token and add into UserSettings section
+*/
+
+UserSettings: MAPPING LOAD * INLINE [
+  SpreadsheetId = 1POih73B4T2v8wEgupinuRzs2bh_fQQfuYx8ogkKUKmU
+  SheetRange = Form responses 1
+  ClientID = 645709070951-e1re3ghvpq6vvnhjophtuu8c531ru7s2.apps.googleusercontent.com
+  ClientSecret = NGBLOQLrYtCSL0oW9kSGkvbw
+  RefreshToken = 1/NPvMZYKwLAq0VebH6FGl8t-SA3rIRGDUSDZ2tccICRk
+] (no labels, delimiter is '=');
+
+LET vGoogleTokenAPI = 'https://www.googleapis.com/oauth2/v4/token';
+LET vGoogleSheetAPI = 'https://sheets.googleapis.com/v4/spreadsheets/' & ApplyMap('UserSettings', 'SpreadsheetId')
+	& '/values/' & MapSubString('EncodeChars', ApplyMap('UserSettings', 'SheetRange'));
+LET vClientID = ApplyMap('UserSettings', 'ClientID');
+LET vClientSecret = ApplyMap('UserSettings', 'ClientSecret');
+LET vRefreshToken = ApplyMap('UserSettings', 'RefreshToken');
+
+
+LIB CONNECT TO 'Post-Request (qlikcloud_qlikid_csw)'; // <- replace with yours
+
+TRACE POST request to $(vGoogleTokenAPI);
+
+BearerToken:
+SQL SELECT 
+	"access_token",
+	"expires_in",
+	"scope",
+	"token_type"
+FROM JSON (wrap on) "root"
+WITH CONNECTION (
+	URL "$(vGoogleTokenAPI)",
+    QUERY "client_secret" "$(vClientSecret)",
+    QUERY "grant_type" "refresh_token",
+    QUERY "refresh_token" "$(vRefreshToken)",
+    QUERY "client_id" "$(vClientID)",
+    HTTPHEADER "content-type" "application/x-www-form-urlencoded"
+);
+
+TRACE New Token requested:;
+LET vToken = Peek('access_token', -1, 'BearerToken');
+TRACE $(vToken);
+DROP TABLE BearerToken;
+
+LIB CONNECT TO 'Get-Request (qlikcloud_qlikid_csw)';  // <- replace with yours
+
+TRACE GET request to $(vGoogleSheetAPI);
+
+GoogleSheetRaw:
+LOAD @Value
+	,__FK_values_u0 AS RowNo
+	,If(__FK_values_u0 = Peek('RowNo'), RangeSum(Peek('ColNo'), 1), 1) AS ColNo
+WHERE NOT IsNull(__FK_values_u0);
+SQL SELECT 
+//	"__KEY_root",
+	(SELECT 
+//		"__FK_values",
+//		"__KEY_values",
+		(SELECT 
+			"@Value",
+			"__FK_values_u0"
+		FROM "values" FK "__FK_values_u0" ArrayValueAlias "@Value")
+	FROM "values" PK "__KEY_values" FK "__FK_values")
+FROM JSON (wrap on) "root" PK "__KEY_root"
+WITH CONNECTION (
+	URL "$(vGoogleSheetAPI)"
+    ,HTTPHEADER "Authorization" "Bearer $(vToken)"
+);
+
+
+// Transpose the array into a table with column names
+
+LET vCols = 0;
+FOR v = 1 TO FieldValueCount('ColNo');
+LET vCols = RangeMax(vCols, FieldValue('ColNo',v));
+NEXT v
+TRACE $(vCols) columns found in spreadsheet;
+
+LET vPrefix = 'GoogelSheetData:';
+FOR v = 1 TO vCols
+	LET vColName = Lookup('@Value','ColNo',v,'GoogleSheetRaw');
+    WHEN Len(vColName) = 0 LET vColName = 'Col$(v)';
+    TRACE $(v) = $(vColName);
+    WHEN v > 1 LET vPrefix = 'LEFT JOIN (GoogelSheetData)';
+    $(vPrefix)
+    LOAD 
+    	RowNo
+        ,@Value AS [$(vColName)] RESIDENT GoogleSheetRaw 
+    WHERE ColNo = $(v) AND RowNo > 1;
+NEXT v;
