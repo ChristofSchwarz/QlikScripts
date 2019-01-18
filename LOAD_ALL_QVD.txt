@@ -1,0 +1,73 @@
+// Script by Christof Schwarz (csw@qlik.com)
+// Version: 13-Jan-2015
+//
+// Description:
+// This include-script will load all tables which together
+// comprise a data model formerly saved with my other script
+// "STORE_ALL_TABLES.txt". It checks .meta.txt files for
+// each QVD file as well to make sure the save checksum is
+// the same for all QVD files. It throws an error if not
+// (which indicates that something went wrong during store).
+//
+// Parameters needed:
+// provide two variables with respective content:
+// "vTableQVD_LibConnect" and "vTableQVD_Prefix"
+//
+// Examples:
+/*
+	LET vTableQVD_LibConnect = 'lib://QVDs (qtsel_csw)/BINARY';
+	LET vTableQVD_Prefix = DocumentTitle();
+*/
+
+TRACE [*** LOAD ALL TABLES ***];
+
+// Check if 2 parameters are provided correctly
+IF NOT '$(vTableQVD_LibConnect)' LIKE 'lib://*' THEN
+	Error: Invalid variable vTableQVD_LibConnect content.; 
+END IF
+IF Len('$(vTableQVD_Prefix)' < 2 THEN
+	Error: Invalid variable vTableQVD_Prefix content.; 
+END IF
+
+TRACE [*** PARAMETERS: ***];
+TRACE [vTableQVD_LibConnect = $(vTableQVD_LibConnect)];
+TRACE [vTableQVD_Prefix = $(vTableQVD_Prefix)];
+
+IF NOT WildMatch(vTableQVD_LibConnect, '*/', '*\') THEN
+	// Add missing trailling slash to the lib path
+	LET vTableQVD_LibConnect = vTableQVD_LibConnect & '/';
+END IF;
+
+// Create empty table
+$QVDMETADATA: LOAD * INLINE [$QVDFILENAME, $QVDCHECKSUM];
+
+FOR EACH vTableQVD IN FileList(vTableQVD_LibConnect & vTableQVD_Prefix & '^*.qvd')
+	LET vTableName = QvdTableName(vTableQVD);
+	TRACE [Load $(vTableQVD) >> $(vTableName)];
+    
+    [$(vTableName)]: LOAD * FROM [$(vTableQVD)] (qvd);
+    LET vTableMetaData = Left(vTableQVD, Len(vTableQVD)-4) & '.meta.txt';
+ 
+    CONCATENATE ($QVDMETADATA)
+    LOAD 
+    	'$(vTableQVD)' AS $QVDFILENAME
+        ,* 
+    FROM 
+    	[$(vTableMetaData)]
+    	(txt, utf8, embedded labels, delimiter is '\t', msq);
+        
+NEXT vTableQVD;
+
+IF FieldValueCount('$QVDCHECKSUM') > 1 THEN
+	Error: The QVDCHECKSUM is not identical in the .meta.txt of the QVD folder;
+ELSE
+	vQVDCheckSum = FieldValue('$QVDCHECKSUM', 1);
+    TRACE [*** DONE LOADING ALL QVD. ***];
+    TRACE [$QVDCHECKSUM = $(vQVDCheckSum)];
+END IF
+
+// delete temporary variables
+LET vTableQVD = Null();
+LET vTableName = Null();
+LET vTableMetaData = Null();
+LET vQVDCheckSum = Null();
