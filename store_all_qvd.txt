@@ -1,0 +1,63 @@
+// Script by Christof Schwarz (csw@qlik.com)
+// Version: 13-Jan-2015
+//
+// Description:
+// This include-script will store all tables of the data model
+// which exist at the point of execution into a given Lib-Folder-
+// connection. 
+// It also stores a checksum into a separate text file, so that
+// the block of files can be loaded together using the other
+// include script. This is a subsitutute to "BINARY" load.
+//
+// Parameters needed:
+// provide two variables with respective content:
+// "vTableQVD_LibConnect" and "vTableQVD_Prefix"
+//
+// Examples:
+/*
+	LET vTableQVD_LibConnect = 'lib://QVDs (qtsel_csw)/BINARY';
+	LET vTableQVD_Prefix = DocumentTitle();
+*/
+
+TRACE [*** SAVE ALL TABLES ***];
+
+// Check if 2 parameters are provided correctly
+IF NOT '$(vTableQVD_LibConnect)' LIKE 'lib://*' THEN
+	Error: Invalid variable vTableQVD_LibConnect content.; 
+END IF
+IF Len('$(vTableQVD_Prefix)' < 2 THEN
+	Error: Invalid variable vTableQVD_Prefix content.; 
+END IF
+
+
+TRACE [*** PARAMETERS: ***];
+TRACE [vTableQVD_LibConnect = $(vTableQVD_LibConnect)];
+TRACE [vTableQVD_Prefix = $(vTableQVD_Prefix)];
+
+IF NOT WildMatch(vTableQVD_LibConnect, '*/', '*\') THEN
+	// Add missing trailling slash to the lib path
+	LET vTableQVD_LibConnect = vTableQVD_LibConnect & '/';
+END IF;
+
+LET vTableQVD_CheckSum = TimeStamp(Now(),'YYYYMMDDhhmmss');
+
+// Create Checksum Table 
+$QVDMETADATA: LOAD '$(vTableQVD_CheckSum)' AS $QVDCHECKSUM AUTOGENERATE(1);
+
+FOR vTableIndex = 1 TO NoOfTables();
+	LET vTableName = TableName(vTableIndex - 1);
+    IF vTableName <> '$QVDMETADATA' THEN
+        LET vTableQVD = vTableQVD_LibConnect & vTableQVD_Prefix & '^' & vTableName ;
+        TRACE [$(vTableIndex): $(vTableName) >> $(vTableQVD)];
+        STORE [$(vTableName)] INTO [$(vTableQVD).qvd] (qvd);
+        STORE $QVDMETADATA INTO [$(vTableQVD).meta.txt] (txt, delimiter is '\t');
+    END IF
+NEXT vTableIndex;
+TRACE [*** DONE WITH ALL TABLES ***];
+DROP TABLE $QVDMETADATA;
+
+// delete temporary variables
+LET vTableIndex = Null();
+LET vvTableName = Null();
+LET vTableQVD = Null();
+LET vTableQVD_CheckSum = Null();
