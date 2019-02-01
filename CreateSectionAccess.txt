@@ -6,6 +6,7 @@ may simulate the Section Access table only as a "normal" table in your data mode
 selecting a USERID. If you use Qlik Sense Server and you like to just test the Access table 
 like with Desktop you can set variable SectionAccess = '//' outside this sub before 
 calling it.
+This sub doesn't run on QlikView (needs a few modifications)
 
 Preconditions:
 °°°°°°°°°°°°°°
@@ -70,6 +71,7 @@ SecurityTable: LOAD USERID, ACCESS, RegionID, SalesRepID, ProdGroupID
 FROM [lib://MyDataFolder (qtsel_csw)/SectionAcces.txt]
 (txt, utf8, embedded labels, delimiter is ',', msq);
 CALL CreateSectionAccess('Facts','SecurityTable','$(vSecurityFields)','wild');
+
 */
 
     TRACE *** Building Security Tables ***;
