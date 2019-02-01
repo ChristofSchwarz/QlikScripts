@@ -1,0 +1,166 @@
+
+SUB CreateSectionAccess(vCentralFactTableName,vSecurityTableName,vSecurityFieldList,vMatchOperator,vSkipCondition)
+/* 
+Note: If you are using Qlik Sense Desktop, SECTION ACCESS is not supported and you
+may simulate the Section Access table only as a "normal" table in your data model by
+selecting a USERID. If you use Qlik Sense Server and you like to just test the Access table 
+like with Desktop you can set variable SectionAccess = '//' outside this sub before 
+calling it.
+
+Preconditions:
+°°°°°°°°°°°°°°
+The central Fact table already has a %SECURITYMATCHHASH column, see parameter 1;
+
+The parameters for this SUB:
+°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+1) vCentralFactTableName (mandatory)
+	Name of the central Facts table where the security will be linked to. This table
+    must have a %SECURITYMATCHHASH field already, which should be added in the LOAD
+    block with Hash128() and the same field list as given in argument 3
+    
+2) vSecurityTableName (mandatory)
+	Name of the security describing table. It must have USERID and ACCESS but should
+    not be in SECTION ACCESS. That will be done inside here. The fields which define
+    who sees what must have the same name as in the central fact table.
+    
+3) vSecurityFieldList (mandatory)
+	List of fields to be considered for security settings in one string, comma-
+    separated and the field-names must be in [square brackets] like '[Country],[Type]'
+    
+4) vMatchOperator (optional, defaults to exact match)
+	You can use 'Wild' or 'mix' or '' (=default if you don't pass this argument) to 
+    compare the values in the Security table against the values in the central Fact table.
+    Using if you put 'wild' it supports the usage of '?' and '*' wildcards in Security
+    settings table and does a case-insensitive comparision. 'mix' only does case-
+    insensitive comparision without wildcards. The default is case-sensitive comparision.
+
+5) vSkipCondition (options, defaults to 'Len({{field}}')
+    This is used to determine "no security limitation" setting in the Security table
+    columns. Typically, if a column is left blank ('') or Null this means "no limit".
+    Sometimes, people put '*' in that case, then the setting for vSkipCondition
+    should be ' {{field}}=''*'' '
+
+Purpose of this sub:
+°°°°°°°°°°°°°°°°°°°°
+It will replace the Security settings table with table called SECTIONACCESSTABLE 
+which is put in SECTION ACCESS (on Qlik Sense Server) to enforce security, and 
+it will create a SECURITYLINK table between the SECTIONACCESSTABLE and your central
+Fact table with all combinations resolved.
+
+The SECTIONACCESSTABLE will inherit the columns ACCESS and USERID but not any of the
+original 'right-assigning' columns as they otherwise would create circular references 
+in the data model. Instead, a proper Qlik WHERE formula that represents the original
+settings is created together with a hash of it. 
+
+The SECURITYLINK will bridge the Facts to the SECTIONACCESSTABLE where each distinct
+SECURITYSEARCHHASH is matched to the SECURITYMATCHHASH.
+
+For convenience this sub will also create a table SECURITYFORMULAMATCHES which 
+has a counter of how many matches of a given WHEREFORMULA where found in the Facts
+table. This can be vital to spot misconfiguration that leads to users not seeing 
+their data rows: Check if one of the rows has 0 in field WHEREFORMULAMATCHES which
+means, that rule returns no single data row.
+
+Examples to call this sub:
+°°°°°°°°°°°°°°°°°°°°°°°°°°
+SET vSecurityFields = [RegionID],[SalesRepID],[ProdGroupID];
+Facts: LOAD *, Hash128($(vSecurityFields)) AS %SECURITYMATCHHASH;
+SQL SELECT RegionID, SalesRepID, ProdGroupID, Sales FROM Sales.dbo.Facts;
+SecurityTable: LOAD USERID, ACCESS, RegionID, SalesRepID, ProdGroupID 
+FROM [lib://MyDataFolder (qtsel_csw)/SectionAcces.txt]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+CALL CreateSectionAccess('Facts','SecurityTable','$(vSecurityFields)','wild');
+*/
+
+    TRACE *** Building Security Tables ***;
+    TRACE vCentralFactTableName = '$(vCentralFactTableName)';
+    TRACE vSecurityTableName = '$(vSecurityTableName)';
+    SET q = ['];
+    LET vSecurityFieldList2 = Replace(Replace(vSecurityFieldList,'[',q),']',q);
+    TRACE vSecurityFieldList = $(vSecurityFieldList);
+    //LET vMatchOperator = ' ' &Trim(If(Len(vMatchOperator),vMatchOperator, '='))& ' ';
+    TRACE vMatchOperator = '$(vMatchOperator)';
+    LET vSkipCondition = If(Len(vSkipCondition)=0,'Len({{field}})',vSkipCondition);
+    TRACE vSkipCondition = '$(vSkipCondition)';
+    SET vWhereFormula = ['True()'];
+
+    FOR EACH vField IN $(vSecurityFieldList2)
+        LET vWhereFormula = vWhereFormula 
+        & '& If('& Replace(vSkipCondition,'{{field}}','[$(vField)]') 
+        & ',$(q) AND $(vMatchOperator)Match([$(vField)],$(q)&CHR(39)&[$(vField)]&CHR(39)&$(q))$(q))';        
+//        & ',$(q) AND [$(vField)]$(vMatchOperator)$(q)&CHR(39)&[$(vField)]&CHR(39))';
+    NEXT 
+    LET vWhereFormula = 'Replace(' & vWhereFormula & ',$(q)True() AND$(q),$(q)$(q))';
+    TRACE 'Creating SECTIONACCESSTABLE with WHEREFORMULA';
+    TRACE $(vWhereFormula);
+    LET vField = Null();
+
+    
+    IF FieldIndex('ACCESS','ADMIN') = 0 THEN
+    	You dont have any ADMIN level user. You may lock yourself out from this app!;
+    END IF
+    
+    IF DocumentName() LIKE '*.qvf' AND '$(SectionAccess)' <> '//' THEN
+    	TRACE Seems you are running >>Qlik Sense Desktop<<
+        Section Access it not supported, creating normal table ...;
+    	LET SectionAccess = '//';
+    END IF
+    
+    $(SectionAccess) SECTION ACCESS; 
+
+    SECTIONACCESSTABLE:
+    LOAD 
+        Upper(USERID) AS USERID
+        ,UPPER(ACCESS) AS ACCESS
+        ,If (ACCESS LIKE 'USER', $(vWhereFormula)) AS WHEREFORMULA
+        ,Hash128($(vWhereFormula)) AS %SECURITYSEARCHHASH
+    RESIDENT [$(vSecurityTableName)];
+
+    $(SectionAccess) SECTION APPLICATION;
+
+    DROP TABLE [$(vSecurityTableName)];
+
+	tmp_WHEREFORMULA: 
+    // Because FieldValue(), FieldValueCount() doesn't work within a
+    // SECTION ACCESS table, create a temp copy of just the WHEREFORMULA column
+    LOAD DISTINCT WHEREFORMULA AS WHEREFORMULA_tmp 
+    RESIDENT SECTIONACCESSTABLE;
+    
+   
+    // Create empty tables with 2 columns
+    SECURITYLINK:  LOAD * INLINE [%SECURITYSEARCHHASH, %SECURITYMATCHHASH];
+	SECURITYFORMULAMATCHES: LOAD * INLINE [WHEREFORMULA, WHEREFORMULAMATCHES];
+
+	LET vMax = FieldValueCount('WHEREFORMULA_tmp');
+    FOR v = 1 TO vMax
+    	// Loop through all combinations of WHEREFORMULA and link the matches from Facts
+        LET vWhere = FieldValue('WHEREFORMULA_tmp', v);
+        TRACE Security Condition $(v)/$(vMax): $(vWhere);
+        
+        LET vBefore = NoOfRows('SECURITYLINK');
+        CONCATENATE (SECURITYLINK)
+        LOAD 
+            Hash128('$(vWhere)') AS %SECURITYSEARCHHASH
+            ,%SECURITYMATCHHASH
+        RESIDENT [$(vCentralFactTableName)]
+        WHERE $(vWhere);
+
+        CONCATENATE (SECURITYFORMULAMATCHES)
+        LOAD '$(vWhere)' AS WHEREFORMULA
+            ,NoOfRows('SECURITYLINK') - $(vBefore) AS WHEREFORMULAMATCHES
+        AUTOGENERATE (1);
+    NEXT v
+    
+    // Delete temporary variables and table
+    DROP TABLE tmp_WHEREFORMULA;
+    LET v = Null();
+    LET vMax = Null();
+    LET vWhere = Null();
+    LET vUserExample = Null();
+    LET q = Null();
+    LET vWhereFormula = Null();
+
+	// Do not use full-text search on this technical fields:
+	SEARCH EXCLUDE %SECURITYSEARCHHASH, %SECURITYMATCHHASH, WHEREFORMULA, WHEREFORMULAMATCHES;
+    
+END SUB
