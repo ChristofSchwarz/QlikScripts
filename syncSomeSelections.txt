@@ -1,0 +1,28 @@
+// You can set variable vSyncFields to a pattern match list (in single quotes, comma-separated)
+// before including the lines of script below, for example
+// SET vSyncFields = [ 'order_date*' ];
+
+WHEN Len(Trim('$(vSyncFields)'))=0 LET vSyncFields = ['*'];
+SET vFieldsWithSelections = [=Replace('ValueList('&CHR(39)&GetCurrentSelections('*/,'&CHR(39),CHR(39)&'/*','',1,'$')&'*/)','ValueList(''*/)','Null()')];
+SET vOpenSet = ['{<'&];
+SET vCloseSet = [&'>}'];
+SET vSetSep = [','&];
+SET vMarker1 = ['/*`*/'&];
+SET vMarker2 = [&'/*´*/'];
+SET vFixEmptySet = ['/*`*/{<>}/*´*/',''];
+SET vFixEmptySep = ['/*`*/,/*´*/',''];
+SET vSyncSel = Concat(If(WildMatch(§(vFieldsWithSelections), §(vSyncFields))
+	,'[' & §(vFieldsWithSelections) & '] =P({$}[' & §(vFieldsWithSelections) & '])' ), ' , ');
+LET vSyncSel = Replace(vSyncSel, '§(', '$' & '(');    
+//$Fix: MAPPING LOAD '§(', '$' & '(' AUTOGENERATE(1);
+//LET vSyncSel = MapSubString('$Fix', vSyncSel);
+LET vSyncSelAll = '=Replace(' & vMarker1 & vOpenSet & vSyncSel & vCloseSet & vMarker2 & ', $(vFixEmptySet) )';
+LET vAddSyncSel = '=Replace(' & vMarker1 & vSetSep & vSyncSel & vMarker2 & ', $(vFixEmptySep) )';
+// Delete all the temp variables
+LET vMarker1 = Null(); 
+LET vMarker2 = Null();
+LET vOpenSet = Null(); 
+LET vCloseSet = Null(); 
+LET vSetSep = Null();
+LET vFixEmptySet = Null();
+LET vFixEmptySep = Null();
