@@ -1,4 +1,4 @@
-TRACE running syncSomeSelections snippet https://bit.ly/2unjnbX;
+TRACE [Running syncSomeSelections snippet https://bit.ly/2unjnbX];
 
 // This script allows to define a number of fields as "global" fields even when used within
 // an alternate state. With that, you've got "almost alternate states". Typically, that are
@@ -18,7 +18,7 @@ TRACE running syncSomeSelections snippet https://bit.ly/2unjnbX;
 // before including the below lines of script, for example
 // SET vSyncFields = [ 'order_date*' , 'employee_id', 'shipping_date*' ];
 
-WHEN Len(Trim('$(vSyncFields)'))=0 LET vSyncFields = ['*'];
+WHEN Len(Trim('$(vSyncFields)'))=0 SET vSyncFields = ['*'];
 SET vFieldsWithSelections = [=Replace('ValueList('&CHR(39)&GetCurrentSelections('*/,'&CHR(39),CHR(39)&'/*','',1,'$')&'*/)','ValueList(''*/)','Null()')];
 SET vOpenSet = ['{<'&];
 SET vCloseSet = [&'>}'];
