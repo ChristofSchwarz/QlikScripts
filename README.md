@@ -1,7 +1,7 @@
 # QlikScripts
 Useful Qlik Script Code Snippets like 
  * [AlmostAlternateStates (SyncSomeSelections)](https://github.com/ChristofSchwarz/QlikScripts/blob/master/syncSomeSelections.txt)
- * Substitute for BINARY load [Store all tables to QVD](https://github.com/ChristofSchwarz/QlikScripts/blob/master/store_all_qvd.txt) and [Load all tables from QVD](https://github.com/ChristofSchwarz/QlikScripts/blob/master/load_all_qvd.txt)
+ * Substitute for BINARY load: [Store all tables to QVD](https://github.com/ChristofSchwarz/QlikScripts/blob/master/store_all_qvd.txt) and [Load all tables from QVD](https://github.com/ChristofSchwarz/QlikScripts/blob/master/load_all_qvd.txt)
  * [Advanced Section Access Mapping](https://github.com/ChristofSchwarz/QlikScripts/blob/master/CreateSectionAccess.txt)
  
 Feel free to either download my snippets or include them directly from GitHub. How?
