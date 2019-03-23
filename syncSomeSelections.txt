@@ -1,6 +1,20 @@
-// You can set variable vSyncFields to a pattern match list (in single quotes, comma-separated)
-// before including the lines of script below, for example
-// SET vSyncFields = [ 'order_date*' ];
+// This script allows to define a number of fields as "global" fields even when used within
+// an alternate state. With that, you've got "almost alternate states". Typically, that are
+// date fields (year, month, ...) which should act as global, whereas all other selections
+// should be private within an alternate state (which they are by default)
+
+// This script snippet will create three variables, two of which you can use within/or as a
+// set analysis. vSyncSelAll and vAddSyncSel
+// Usage examples:
+//     Sum ( $(vSyncSelAll) Sales)
+//     Sum ( {< field = {"value"} $(vAddSyncSel) >} Sales)
+
+// See https://www.youtube.com/watch?v=jQVzMaxABNA
+
+// To tell the script, which field(s) you want to sync into the alternate states, put 
+// a pattern match list (in single quotes, comma-separated) into variable vSyncFields 
+// before including the below lines of script, for example
+// SET vSyncFields = [ 'order_date*' , 'employee_id', 'shipping_date*' ];
 
 WHEN Len(Trim('$(vSyncFields)'))=0 LET vSyncFields = ['*'];
 SET vFieldsWithSelections = [=Replace('ValueList('&CHR(39)&GetCurrentSelections('*/,'&CHR(39),CHR(39)&'/*','',1,'$')&'*/)','ValueList(''*/)','Null()')];
