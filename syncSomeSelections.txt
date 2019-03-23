@@ -1,4 +1,4 @@
-TRACE running syncSomeSelections snippet https://bit.ly/2unjnbX
+TRACE running syncSomeSelections snippet https://bit.ly/2unjnbX;
 
 // This script allows to define a number of fields as "global" fields even when used within
 // an alternate state. With that, you've got "almost alternate states". Typically, that are
