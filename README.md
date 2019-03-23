@@ -1,5 +1,8 @@
 # QlikScripts
-Useful Qlik Script Code Snippets
+Useful Qlik Script Code Snippets like 
+| Snippet | Explanation |
++---------+-------------+
+| AlmostAlternateStates | lsakdfjl |
 
 You can download them or run them directly from GitHub.
 
