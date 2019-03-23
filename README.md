@@ -1,6 +1,6 @@
 # QlikScripts
 Useful Qlik Script Code Snippets like 
- * [AlmostAlternateStates (SyncSomeSelections)]https://github.com/ChristofSchwarz/QlikScripts/blob/master/syncSomeSelections.txt
+ * [AlmostAlternateStates (SyncSomeSelections)](https://github.com/ChristofSchwarz/QlikScripts/blob/master/syncSomeSelections.txt)
 
 You can download them or run them directly from GitHub.
 
