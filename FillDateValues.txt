@@ -1,0 +1,53 @@
+
+SUB FillDateValues (vFillDateField, vFillDateTable, vFillDateFormat, vFillResolution)
+	
+    TRACE ►►
+Executing sub "FillDateValues" by Christof Schwarz
+Determining min and max value of [$(vFillDateField)]
+◄◄;
+    
+    [$tmp_MinMax$(vFillDateField)]:
+    LOAD 
+        Min(Floor([$(vFillDateField)], $(vFillResolution))) AS $MinFillValue
+        ,Max(Floor([$(vFillDateField)], $(vFillResolution))) AS $MaxFillValue
+    RESIDENT [$(vFillDateTable)];
+    LET vMinFillDate = Peek('$MinFillValue',0, '$tmp_MinMax$(vFillDateField)');
+    LET vMaxFillDate = Peek('$MaxFillValue',0, '$tmp_MinMax$(vFillDateField)');
+    DROP TABLE [$tmp_MinMax$(vFillDateField)];
+
+	LET vFillRows = 'from ' & TimeStamp(vMinFillDate, vFillDateFormat) 
+    	& ' to ' & TimeStamp(vMaxFillDate, vFillDateFormat);
+	TRACE ►►
+Filling values $(vFillRows)
+◄◄;
+    
+    LET vFillRows = NoOfRows(vFillDateTable);
+
+    // Fill Dates:
+    CONCATENATE ([$(vFillDateTable)])
+    LOAD 
+        $(vMinFillDate) + (RecNo()-1) * $(vFillResolution)  AS [$(vFillDateField)],
+        Num($(vMinFillDate) + (RecNo()-1) * $(vFillResolution),'','.',' ') AS [$FilledDates],
+        0 AS [$FillZeros]
+    AUTOGENERATE(($(vMaxFillDate)-$(vMinFillDate)) / $(vFillResolution) + 1);
+
+    LET vFillRows = NoOfRows(vFillDateTable) - vFillRows;
+    TRACE ►►
+$(vFillRows) values for field [$(vFillDateField)] added to [$(vFillDateTable)]
+◄◄;
+    LET vCodeNumFormat = Replace('"","."," "', CHR(34), CHR(39)); // double-quotes -> single quotes
+    LET vFillZerosSet = '{1 <$FilledDates = {">=$' 
+     & '(=Num(Min([$(vFillDateField)]),' & vCodeNumFormat &'))<=$'  
+     & '(=Num(Max([$(vFillDateField)]),' & vCodeNumFormat &'))"}>}';
+
+    LET vFillZeros = 'If(Count(' & vFillZeroSet & ' $FillZeros),0)';
+    // Delete temporary variables
+    LET vFillRows = Null();
+    LET vFillDateTable = Null();
+    LET vFillDateField = Null();
+    LET vCodeNumFormat = Null();
+    LET vMinFillDate = Null();
+    LET vMaxFillDate = Null();
+
+END SUB
+
