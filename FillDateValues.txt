@@ -1,10 +1,10 @@
 
 SUB FillDateValues (vFillDateField, vFillDateTable, vFillDateFormat, vFillResolution)
 	
-    TRACE ►►
+    TRACE >>
 Executing sub "FillDateValues" by Christof Schwarz
 Determining min and max value of [$(vFillDateField)]
-◄◄;
+<<;
     
     [$tmp_MinMax$(vFillDateField)]:
     LOAD 
@@ -17,9 +17,9 @@ Determining min and max value of [$(vFillDateField)]
 
 	LET vFillRows = 'from ' & TimeStamp(vMinFillDate, vFillDateFormat) 
     	& ' to ' & TimeStamp(vMaxFillDate, vFillDateFormat);
-	TRACE ►►
+	TRACE >>
 Filling values $(vFillRows)
-◄◄;
+<<;
     
     LET vFillRows = NoOfRows(vFillDateTable);
 
@@ -32,15 +32,17 @@ Filling values $(vFillRows)
     AUTOGENERATE(($(vMaxFillDate)-$(vMinFillDate)) / $(vFillResolution) + 1);
 
     LET vFillRows = NoOfRows(vFillDateTable) - vFillRows;
-    TRACE ►►
+    TRACE >>
 $(vFillRows) values for field [$(vFillDateField)] added to [$(vFillDateTable)]
-◄◄;
+<<;
     LET vCodeNumFormat = Replace('"","."," "', CHR(34), CHR(39)); // double-quotes -> single quotes
     LET vFillZerosSet = '{1 <$FilledDates = {">=$' 
      & '(=Num(Min([$(vFillDateField)]),' & vCodeNumFormat &'))<=$'  
      & '(=Num(Max([$(vFillDateField)]),' & vCodeNumFormat &'))"}>}';
 
-    LET vFillZeros = 'If(Count(' & vFillZeroSet & ' $FillZeros),0)';
+    LET vFillZeros = 'If(Count({1 <$FilledDates = {">=$' 
+     & '(=Num(Min([$(vFillDateField)]),' & vCodeNumFormat &'))<=$'  
+     & '(=Num(Max([$(vFillDateField)]),' & vCodeNumFormat &'))"}>} $FillZeros),0)';
     // Delete temporary variables
     LET vFillRows = Null();
     LET vFillDateTable = Null();
@@ -49,5 +51,6 @@ $(vFillRows) values for field [$(vFillDateField)] added to [$(vFillDateTable)]
     LET vMinFillDate = Null();
     LET vMaxFillDate = Null();
 
+    TAG FIELDS $FilledDates, $FillZeros WITH $hidden;
 END SUB
 
