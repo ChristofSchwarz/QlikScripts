@@ -1,3 +1,17 @@
+/* 
+This sub fills your fact table with date fields so that you can show Zeros in time series charts when you have no
+data in that timespan. 
+
+How to use?
+In your script put this call (it takes 4 arguments):
+CALL FillDateValues(<Arg1>, <Arg2>, <Arg3>, <Arg4>);
+ - Arg1: Name of date field
+ - Arg2: Name of table where this field is in
+ - Arg3: proper Timestamp format string 
+ - Arg4: resolution in days (1= one per day, 1/24 = 1 per hour, 0.5 = every 12 hours)
+Example:
+CALL FillDateValues('OrderDate', 'OrderTable', 'YYYY-MM-DD hh:mm:ss', 1);
+*/
 
 SUB FillDateValues (vFillDateField, vFillDateTable, vFillDateFormat, vFillResolution)
 	
