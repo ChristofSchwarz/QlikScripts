@@ -1,9 +1,5 @@
-//
-/*
 # Hello
 ```
-*/
-
 PoT:
 LOAD * INLINE [
 ID, Event, More, MuchMore
@@ -56,7 +52,5 @@ INNER JOIN (AllTimes)
 LOAD * RESIDENT PoT2;
 DROP TABLE PoT2;
 //DROP FIELD SpanEventTo;
-
-/*
 ```
-*/
+
