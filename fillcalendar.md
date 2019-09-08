@@ -1,5 +1,5 @@
 # Fill Calendar Events
-For each day between the Min and Max Event Date a filled row should be created, repeating the last row.
+For each day between the Min and Max Event Date a filled row should be created, repeating the row of the last day before. Basically, all the rows in below table tagged "orig" were given, the ones with "filled" were automatically created. The script is below
 
  | ID | FilledEvent | More |   | 
  | --- | --- | --- | --- |
