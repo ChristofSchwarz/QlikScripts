@@ -1,0 +1,18 @@
+PivotData: 
+LOAD * INLINE [
+Year, Country, Customer, Sales
+2017, Canada, Chris, 200
+2017, Canada, Anny, 100
+2017, United Kingdom, Foo, 20
+2017, United Kingdom, Kong, 100
+2018, Canada, Chris, 90
+2018, Canada, Anny, 110
+2018, Canada, Foo, 30
+2018, United Kingdom, Foo, 180
+2018, United Kingdom, Kong, 170
+];
+
+SET fxSort2 = Dual($1, Num#(Left(KeepChar(Hash256($1,$2),'0123456789ABCDEF'),18),'(hex)'));
+SET fxSort3 = Dual($1, Num#(Left(KeepChar(Hash256($1,$2,$3),'0123456789ABCDEF'),18),'(hex)'));
+SET fxSort4 = Dual($1, Num#(Left(KeepChar(Hash256($1,$2,$3,$4),'0123456789ABCDEF'),18),'(hex)'));
+SET fxSort5 = Dual($1, Num#(Left(KeepChar(Hash256($1,$2,$3,$4,$5),'0123456789ABCDEF'),18),'(hex)'));
