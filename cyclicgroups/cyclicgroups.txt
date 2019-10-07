@@ -1,0 +1,42 @@
+// CyclicGroups: a inline table with at least the following 3
+// columns: $cgId, $cgField, $cgLabel.EN
+// EN is the English label (the UI looks for the field ending
+// with two chars as per variable vLanguage ! 
+// feel free to add/remove labels in different languages like $cgLabel.DE
+// Two hints:
+// - you can also use formulas in the $cgField column (a calculated dim),
+//   put formula in "double-quotes" 
+// - put field names with spaces or special characters in [square brackets]
+
+[CyclicGroups]:
+LOAD *,
+  RecNo() AS $cgSort,
+  Peek('$cgSetVars') & If($cgId <> Peek('$cgId'), CHR(10) & 
+    'SET [vCG' & $cgId & '] = `' & $cgField & '`;') AS $cgSetVars
+INLINE 
+ /* ▼ Cyclic Group Definitions ▼ */ `
+ 
+  $cgId, $cgField, $cgLabel.EN, $cgLabel.DE
+  
+  1, Year, Year, Jahr
+  1, Quarter, Quarter, Quartal
+  1, Month, Month, Monat
+//  1, "Date(MakeDate(2020,Month,1),'MMM')", Month, Monat
+  
+  2, "'All'", Total, Total  
+  2, [Insurance Company], per insurance, pro Versicherung
+  
+`/* ▲ Cyclic Group Definitions ▲ */
+WHERE NOT $cgId LIKE '//*';
+
+// Create a variable vCG# for each Group from above table ...
+LET vCGTmp = Peek('$cgSetVars', -1, 'CyclicGroups') & CHR(10);
+TRACE `** initializing CyclicGroup variables **$(vCGTmp)`;
+$(vCGTmp);
+// Set all fields of CyclicGroups table to $hidden 
+FOR vCGTmp = 1 To NoOfFields('CyclicGroups');
+  LET vCGField = FieldName(vCGTmp, 'CyclicGroups');
+  TAG FIELDS [$(vCGField)] WITH '$hidden';
+NEXT vCGTmp;
+LET vCGTmp = Null();  // remove temp variable
+LET vCGField = Null();  // remove temp variable
