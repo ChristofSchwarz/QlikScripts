@@ -7,7 +7,7 @@
 // connection. 
 // It also stores a checksum into a separate text file, so that
 // the block of files can be loaded together using the other
-// include script. This is a subsitutute to "BINARY" load.
+// include script. This is a subsititute to "BINARY" load.
 //
 // Parameters needed:
 // provide two variables with respective content:
@@ -25,7 +25,7 @@ TRACE [*** SAVE ALL TABLES ***];
 IF NOT '$(vTableQVD_LibConnect)' LIKE 'lib://*' THEN
 	Error: Invalid variable vTableQVD_LibConnect content.; 
 END IF
-IF Len('$(vTableQVD_Prefix)' < 2 THEN
+IF Len('$(vTableQVD_Prefix)') < 2 THEN
 	Error: Invalid variable vTableQVD_Prefix content.; 
 END IF
 
