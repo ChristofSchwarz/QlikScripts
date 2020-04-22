@@ -1,0 +1,126 @@
+SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat, parCutDateField, parDurationField)
+
+// Sub splits time-spans into multiple rows, when the span crosses a time-cut. The time-cut is indireclty by a
+// Resolution parameter ...
+// 
+// parTable (obligatory) ... name of the table where your From and To dates are found
+// parFromField (obligatory) ... name of the From date field
+// parToField (obligatory) ... name of the To date field
+// parResolution (obligatory) ... how many multiples of days do you want splitting time-cuts (1 = 1 per day,
+//                                1/24 = 1 per hour)
+// parFormat (obligatory) ... TimestampFormat to parse and render the newly generated date fields 
+//                            e.g. 'YYYY-MM-DD hh:mm:ss'
+// parCutDateField (optional) ... This field will hold the closest cut-date for the given period, this is good
+//                                to link it to your MasterCalendar. If parameter is ommited, the field will
+//                                temporarily be created but removed before the Sub finishes
+// parDurationField (optional) ... leaves a Duration field of the result rows, so you can easily do Sum(Duration)
+//                                 in your frontend. If parameter is ommited, the duration field will
+//                                 temporarily be created but removed before the Sub finishes. It does so to 
+//                                 compare the initial Sum(~Duration) with the final Sum(~Duration) and will
+//                                 break script execution in case they don't match (logic failed, shouldn't happen)
+// Examples:
+// CALL SplitTimeSpans ('My Intervals', 'FROM DATE', 'TO DATE', 1, 'YYYY-MM-DD hh:mm:ss','%CALDATE', 'DURATION');
+// CALL SplitTimeSpans ('tFACTS', 'FromDateTime', 'ToDateTime', 1/24, 'DD.MM.YYYY hh:mm:ss', Null(), 'Duration');
+// CALL SplitTimeSpans ('Facts', 'Facts.From', 'Facts.To', 0.5, 'MM/DD/YYYY hh:mm:ss');
+
+    IF Len('$(parTable)')*Len('$(parFromField)')*Len('$(parToField)')*Len('$(parResolution)')*Len('$(parFormat)') = 0 THEN
+       [Error: you did not provide all necessary parameters to sub SplitTimeSpans(...)];
+    END IF
+    
+	// set default values for optional parameters
+	LET subDurationField = If(Len('$(parDurationField)'), '$(parDurationField)', '~Duration');
+    LET subCutDateField = If(Len('$(parCutDateField)'), '$(parCutDateField)', '~CutDate');
+    LET subResolution = Num(parResolution , '','.',' ');  // Format parameter to US num format
+    LET subRowsBefore = NoOfRows('$(parTable)');
+    
+    // Phase 1) add the Floor of FROM and TO
+    [$(parTable)~1]:
+    LOAD 
+        *,
+        [$(parToField)] - [$(parFromField)] AS [$(subDurationField)],
+        Floor([$(parFromField)], $(subResolution)) AS [$(parFromField).Floor], 
+        Floor([$(parToField)], $(subResolution)) AS [$(parToField).Floor]
+    RESIDENT    
+        [$(parTable)];       
+
+	[~CheckSums]: 
+    LOAD Round(Sum([$(subDurationField)]), 0.00000001) AS [~CheckSum1] 
+    RESIDENT [$(parTable)~1];
+    DROP FIELD [$(subDurationField)] FROM [$(parTable)~1];
+    DROP TABLE [$(parTable)];
+    
+    // Phase 2) Find min and max date in fields FROM and TO
+    TRACE Looking for min date of field "$(parFromField)";
+    [~tmpMinDate]:
+    LOAD Min(FieldValue('$(parFromField).Floor', RecNo())) as [~MinDate]
+    AUTOGENERATE FieldValueCount('$(parToField).Floor');
+    LET vCalMinDate= Num(peek('~MinDate', 0, '~tmpMinDate'), '','.',' ');
+    DROP TABLE [~tmpMinDate];
+    
+    TRACE Looking for max date of field "$(parToField)";
+    [~tmpMaxDate]:
+    LOAD Max(FieldValue('$(parToField).Floor',RecNo())) as [~MaxDate]
+    AUTOGENERATE FieldValueCount('$(parToField).Floor');
+    LET vCalMaxDate= Num(peek('~MaxDate', 0, '~tmpMaxDate'), '','.',' ');
+    DROP TABLE [~tmpMaxDate];
+
+    // Phase 3) Build a table ~Cuts which has as many cut dates as 
+    // contained between the min FromDate and max ToDate
+    [~Cuts]:
+    LOAD
+        TimeStamp((RowNo() -1) * $(subResolution) + $(vCalMinDate),'$(parFormat)') as [$(subCutDateField)]
+    AUTOGENERATE (($(vCalMaxDate) - $(vCalMinDate))/$(subResolution) + 1);
+
+    // Phase 4) Split the rows in the data table into multiple rowse
+    // using inner join and interval match
+    INNER JOIN ([$(parTable)~1])  
+    INTERVALMATCH([$(subCutDateField)])
+    LOAD [$(parFromField).Floor], [$(parToField).Floor]
+    RESIDENT [$(parTable)~1];
+    
+    DROP TABLE [~Cuts];
+    LET subRowsAfter = NoOfRows('$(parTable)~1');
+    TRACE Table "$(parTable)" had $(subRowsBefore) rows, has now $(subRowsAfter) rows;
+    
+    // Phase 5) create final table
+    [$(parTable)~2]:
+    LOAD
+       *,
+       [$(parToField).New] - [$(parFromField).New] AS [$(subDurationField)]
+    ;   
+    LOAD
+        TimeStamp(RangeMax([$(parFromField)], [$(subCutDateField)]), '$(parFormat)') AS [$(parFromField).New],
+        TimeStamp(RangeMin([$(parToField)], [$(subCutDateField)]+ $(subResolution)), '$(parFormat)') AS [$(parToField).New],
+        *
+    RESIDENT 
+        [$(parTable)~1];
+        
+    DROP TABLE [$(parTable)~1];
+
+    // Phase 6) Make a final check that the durations haven't changed
+    OUTER JOIN ([~CheckSums]) 
+    LOAD Round(Sum([$(subDurationField)]),0.00000001) AS [~CheckSum2] 
+    RESIDENT [$(parTable)~2];
+
+    // Phase 7) Clean up
+    RENAME TABLE [$(parTable)~2] TO [$(parTable)];
+    DROP FIELDS [$(parFromField).Floor], [$(parToField).Floor] FROM [$(parTable)];
+    WHEN subCutDateField = '~CutDate' DROP FIELD [~CutDate] FROM [$(parTable)];
+    WHEN subDurationField = '~Duration' DROP FIELD [~Duration] FROM [$(parTable)];
+    RENAME FIELD [$(parFromField)] TO [$(parFromField).Original];
+    RENAME FIELD [$(parToField)] TO [$(parToField).Original];
+    RENAME FIELD [$(parFromField).New] TO [$(parFromField)];
+    RENAME FIELD [$(parToField).New] TO [$(parToField)];
+    // remove temp variables (created inside this sub)
+    LET subDurationField = Null();
+    LET subCutDateField = Null();
+    LET subResolution = Null();
+    LET subRowsBefore = Null();
+    
+    IF Peek('~CheckSum1',0,'~CheckSums')<>Peek('~CheckSum2',0,'~CheckSums') THEN
+        [Error: The total duration has changed after the split-operation. See ~CheckSums table.];
+    ELSE 
+        DROP TABLE [~CheckSums];
+    END IF
+    
+END SUB
