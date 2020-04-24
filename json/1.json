@@ -1,0 +1,255 @@
+[
+    {
+        "name": "Musterprojekt K21 Modell_Entwurf Überarbeitung V9",
+        "description": null,
+        "projectId": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+        "userGroupName": "General",
+        "userGroupId": "e4c3c196-d4cf-43d4-9876-f816898dd7c8",
+        "topologyId": "054f0a63-36a2-40c8-85d1-4c4050386976",
+        "revisionObjects": [
+            {
+                "id": "05d3775f-688e-48ac-a21d-cadfe886e397",
+                "importFileName": "Musterprojekt K21 Modell_Entwurf Überarbeitung V9.ifc",
+                "projectId": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+                "divisionId": "428b4d22-7e4f-48ac-8519-798fc3a62454",
+                "revisionNr": 3,
+                "created": "2020-04-13T17:55:25.7",
+                "createdby": {
+                    "id": "3ffae35f-6fe6-520c-6c24-d09d6ef3cfc7",
+                    "email": "stefan@soares-kaufmann.de",
+                    "firstname": "Stefan",
+                    "lastname": "Kaufmann"
+                },
+                "changed": "2019-08-16T10:14:21.38",
+                "changedby": {
+                    "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+                    "email": "dirk.bessert@etask.de",
+                    "firstname": "Dirk",
+                    "lastname": "Bessert"
+                },
+                "applicationId": "0106c8ba-ad46-7c08-e26f-026852cb7525",
+                "topologyId": "054f0a63-36a2-40c8-85d1-4c4050386976",
+                "inputType": "IFC_IMPORT",
+                "release": 0
+            },
+            {
+                "id": "ee8694f1-c835-4da1-8718-23fd8d4a7fd1",
+                "importFileName": "Musterprojekt K21 Modell_Entwurf Überarbeitung V9",
+                "description": "",
+                "projectId": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+                "divisionId": "428b4d22-7e4f-48ac-8519-798fc3a62454",
+                "revisionNr": 2,
+                "created": "2020-04-09T11:58:19.64",
+                "createdby": {
+                    "id": "3ffae35f-6fe6-520c-6c24-d09d6ef3cfc7",
+                    "email": "stefan@soares-kaufmann.de",
+                    "firstname": "Stefan",
+                    "lastname": "Kaufmann"
+                },
+                "changed": "2020-04-09T11:58:19.64",
+                "changedby": {
+                    "id": "3ffae35f-6fe6-520c-6c24-d09d6ef3cfc7",
+                    "email": "stefan@soares-kaufmann.de",
+                    "firstname": "Stefan",
+                    "lastname": "Kaufmann"
+                },
+                "applicationId": "0106c8ba-ad46-7c08-e26f-026852cb7525",
+                "topologyId": "054f0a63-36a2-40c8-85d1-4c4050386976",
+                "inputType": "IFC_IMPORT",
+                "release": 1
+            },
+            {
+                "id": "c6c25e5b-26a1-4d67-9cf9-1d1d15e08c91",
+                "importFileName": "Musterprojekt K21 Modell_Entwurf Überarbeitung V9.ifc",
+                "projectId": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+                "divisionId": "428b4d22-7e4f-48ac-8519-798fc3a62454",
+                "revisionNr": 1,
+                "created": "2019-08-14T09:48:03.76",
+                "createdby": {
+                    "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+                    "email": "dirk.bessert@etask.de",
+                    "firstname": "Dirk",
+                    "lastname": "Bessert"
+                },
+                "changed": "2019-08-14T09:48:03.76",
+                "changedby": {
+                    "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+                    "email": "dirk.bessert@etask.de",
+                    "firstname": "Dirk",
+                    "lastname": "Bessert"
+                },
+                "applicationId": "0106c8ba-ad46-7c08-e26f-026852cb7525",
+                "topologyId": "054f0a63-36a2-40c8-85d1-4c4050386976",
+                "inputType": "IFC_IMPORT",
+                "release": 1
+            }
+        ],
+        "teamSlug": "allplan-kaufmann",
+        "url": "/allplan-kaufmann/divisions/428b4d22-7e4f-48ac-8519-798fc3a62454/download?revision=3",
+        "fileType": "Ifc",
+        "inputType": "IFC_IMPORT",
+        "created": "2019-08-14T09:48:03",
+        "createdby": {
+            "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+            "email": "dirk.bessert@etask.de",
+            "firstname": "Dirk",
+            "lastname": "Bessert"
+        },
+        "changed": "2019-08-16T10:14:21.38",
+        "changedby": {
+            "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+            "email": "dirk.bessert@etask.de",
+            "firstname": "Dirk",
+            "lastname": "Bessert"
+        },
+        "size": 93945856,
+        "sizeMB": "89.59",
+        "importFileName": "Musterprojekt K21 Modell_Entwurf Überarbeitung V9.ifc",
+        "importFileSize": 46881650,
+        "ifcProject": "0SiGCfIO95Yv2oo1hHyCBB",
+        "id": "428b4d22-7e4f-48ac-8519-798fc3a62454"
+    },
+    {
+        "name": "THM E10",
+        "description": null,
+        "projectId": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+        "userGroupName": "General",
+        "userGroupId": "e4c3c196-d4cf-43d4-9876-f816898dd7c8",
+        "topologyId": "caa5b9d2-a0ab-4438-89ad-a0f5a343419b",
+        "revisionObjects": [
+            {
+                "id": "0c0bd3cb-9375-4e22-9109-501a8a16430f",
+                "importFileName": "Modell E10.ifc",
+                "projectId": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+                "divisionId": "9c431bbb-a985-4154-a477-45a4fe6e5cd7",
+                "revisionNr": 2,
+                "created": "2020-04-14T10:23:19.59",
+                "createdby": {
+                    "id": "3ffae35f-6fe6-520c-6c24-d09d6ef3cfc7",
+                    "email": "stefan@soares-kaufmann.de",
+                    "firstname": "Stefan",
+                    "lastname": "Kaufmann"
+                },
+                "changed": "2019-08-28T10:29:06.623",
+                "changedby": {
+                    "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+                    "email": "dirk.bessert@etask.de",
+                    "firstname": "Dirk",
+                    "lastname": "Bessert"
+                },
+                "applicationId": "0106c8ba-ad46-7c08-e26f-026852cb7525",
+                "topologyId": "caa5b9d2-a0ab-4438-89ad-a0f5a343419b",
+                "inputType": "IFC_IMPORT",
+                "release": 0
+            },
+            {
+                "id": "bf17949f-303c-4eda-b565-5f5c03687a8a",
+                "importFileName": "Modell E10.ifc",
+                "projectId": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+                "divisionId": "9c431bbb-a985-4154-a477-45a4fe6e5cd7",
+                "revisionNr": 1,
+                "created": "2019-08-28T10:26:21.7",
+                "createdby": {
+                    "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+                    "email": "dirk.bessert@etask.de",
+                    "firstname": "Dirk",
+                    "lastname": "Bessert"
+                },
+                "changed": "2019-08-28T10:26:21.7",
+                "changedby": {
+                    "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+                    "email": "dirk.bessert@etask.de",
+                    "firstname": "Dirk",
+                    "lastname": "Bessert"
+                },
+                "applicationId": "0106c8ba-ad46-7c08-e26f-026852cb7525",
+                "topologyId": "caa5b9d2-a0ab-4438-89ad-a0f5a343419b",
+                "inputType": "IFC_IMPORT",
+                "release": 1
+            }
+        ],
+        "teamSlug": "allplan-kaufmann",
+        "url": "/allplan-kaufmann/divisions/9c431bbb-a985-4154-a477-45a4fe6e5cd7/download?revision=2",
+        "fileType": "Ifc",
+        "inputType": "IFC_IMPORT",
+        "created": "2019-08-28T10:26:22",
+        "createdby": {
+            "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+            "email": "dirk.bessert@etask.de",
+            "firstname": "Dirk",
+            "lastname": "Bessert"
+        },
+        "changed": "2019-08-28T10:29:06.623",
+        "changedby": {
+            "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+            "email": "dirk.bessert@etask.de",
+            "firstname": "Dirk",
+            "lastname": "Bessert"
+        },
+        "size": 104109056,
+        "sizeMB": "99.29",
+        "importFileName": "Modell E10.ifc",
+        "importFileSize": 58023657,
+        "ifcProject": "08i3SuPYL9Zgjj7AsPMrPe",
+        "id": "9c431bbb-a985-4154-a477-45a4fe6e5cd7"
+    },
+    {
+        "name": "Modell E10 Gebäude_test_1",
+        "description": null,
+        "projectId": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+        "userGroupName": "General",
+        "userGroupId": "e4c3c196-d4cf-43d4-9876-f816898dd7c8",
+        "topologyId": "e4443e2d-889d-4787-83cf-7f3a120ef4b4",
+        "revisionObjects": [
+            {
+                "id": "fac1243d-31ee-4c07-9708-054f9b58a4e8",
+                "importFileName": "Modell E10 Gebäude_test_1.ifc",
+                "projectId": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+                "divisionId": "9857584c-247a-400b-85b8-8d134e7269ed",
+                "revisionNr": 1,
+                "created": "2019-10-07T13:00:03.26",
+                "createdby": {
+                    "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+                    "email": "dirk.bessert@etask.de",
+                    "firstname": "Dirk",
+                    "lastname": "Bessert"
+                },
+                "changed": "2019-10-07T13:01:55.06",
+                "changedby": {
+                    "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+                    "email": "dirk.bessert@etask.de",
+                    "firstname": "Dirk",
+                    "lastname": "Bessert"
+                },
+                "applicationId": "0106c8ba-ad46-7c08-e26f-026852cb7525",
+                "topologyId": "e4443e2d-889d-4787-83cf-7f3a120ef4b4",
+                "inputType": "IFC_IMPORT",
+                "release": 0
+            }
+        ],
+        "teamSlug": "allplan-kaufmann",
+        "url": "/allplan-kaufmann/divisions/9857584c-247a-400b-85b8-8d134e7269ed/download?revision=1",
+        "fileType": "Ifc",
+        "inputType": "IFC_IMPORT",
+        "created": "2019-10-07T13:00:03",
+        "createdby": {
+            "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+            "email": "dirk.bessert@etask.de",
+            "firstname": "Dirk",
+            "lastname": "Bessert"
+        },
+        "changed": "2019-10-07T13:01:55.06",
+        "changedby": {
+            "id": "3f311caa-3434-480c-8d5e-0da5171ddf76",
+            "email": "dirk.bessert@etask.de",
+            "firstname": "Dirk",
+            "lastname": "Bessert"
+        },
+        "size": 39774208,
+        "sizeMB": "37.93",
+        "importFileName": "Modell E10 Gebäude_test_1.ifc",
+        "importFileSize": 21099174,
+        "ifcProject": "3V44Aa$JTCyAMmUjXvFU1P",
+        "id": "9857584c-247a-400b-85b8-8d134e7269ed"
+    }
+]
