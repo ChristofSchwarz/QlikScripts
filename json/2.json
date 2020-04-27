@@ -1,0 +1,404 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "ifcType": "IfcName_None",
+                            "ifcId": "3Eu0KZv9jBCB9nbFKei9ZK#0",
+                            "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                            "parent": "5a6172bd-a35c-4094-8af3-3ad0b196a880",
+                            "name": "Oberfläche:278229",
+                            "type": "Topology",
+                            "number": 3,
+                            "id": "fe2f20c0-4a8b-4545-92a6-3fbc5c80898f"
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "0SiGCfIO95Yv2oo1ek2bVP",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "0f5346be-8ae4-4d22-a35b-68a726e4d5e5",
+                                    "name": "Floor -1",
+                                    "type": "Topology",
+                                    "number": 5,
+                                    "id": "b5cf4f6d-58e5-4e0a-98f6-1d4a8000615b"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "0SiGCfIO95Yv2oo1ek3pmC",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "0f5346be-8ae4-4d22-a35b-68a726e4d5e5",
+                                    "name": "Floor_0",
+                                    "type": "Topology",
+                                    "number": 6,
+                                    "id": "9a2d1e86-a67b-460c-b903-4680851d49a4"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "0SiGCfIO95Yv2oo1ek3p_D",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "0f5346be-8ae4-4d22-a35b-68a726e4d5e5",
+                                    "name": "Floor_1",
+                                    "type": "Topology",
+                                    "number": 7,
+                                    "id": "79dfcb84-a9f6-4ea5-8b1b-54b504d96335"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "0SiGCfIO95Yv2oo1ek3fZ0",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "0f5346be-8ae4-4d22-a35b-68a726e4d5e5",
+                                    "name": "Floor_2",
+                                    "type": "Topology",
+                                    "number": 8,
+                                    "id": "edf37015-0590-47f7-8d0c-549b6d49f5d3"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "0SiGCfIO95Yv2oo1ek3fGU",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "0f5346be-8ae4-4d22-a35b-68a726e4d5e5",
+                                    "name": "Floor_3",
+                                    "type": "Topology",
+                                    "number": 9,
+                                    "id": "b083b0ca-e356-4a04-9160-13614cd96aff"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "0SiGCfIO95Yv2oo1ek1bvY",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "0f5346be-8ae4-4d22-a35b-68a726e4d5e5",
+                                    "name": "Fußbodenaufbau Floor 3",
+                                    "type": "Topology",
+                                    "number": 10,
+                                    "id": "21ada4a3-2d02-487f-94f9-2c59059032e8"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "0SiGCfIO95Yv2oo1ek3esJ",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "0f5346be-8ae4-4d22-a35b-68a726e4d5e5",
+                                    "name": "Floor_4",
+                                    "type": "Topology",
+                                    "number": 11,
+                                    "id": "d9560f77-e537-4dfa-b786-56ef8f6c781d"
+                                }
+                            ],
+                            "ifcType": "IfcBuilding",
+                            "ifcId": "0SiGCfIO95Yv2oo1hHyCBA",
+                            "elementTypeId": "d72696e0-6f5e-4883-a54d-f36ccb3b5f3b",
+                            "parent": "5a6172bd-a35c-4094-8af3-3ad0b196a880",
+                            "name": "",
+                            "type": "TopologyItem",
+                            "number": 4,
+                            "id": "0f5346be-8ae4-4d22-a35b-68a726e4d5e5"
+                        }
+                    ],
+                    "ifcType": "IfcSite",
+                    "ifcId": "3Eu0KZv9jBCB9nbFKei9ZK",
+                    "elementTypeId": "d5dcaf7d-adb3-4bba-a4a6-2bdaba9112e4",
+                    "parent": "054f0a63-36a2-40c8-85d1-4c4050386976",
+                    "name": "Oberfläche:278229",
+                    "type": "Site",
+                    "number": 2,
+                    "id": "5a6172bd-a35c-4094-8af3-3ad0b196a880"
+                }
+            ],
+            "ifcType": "IfcProject",
+            "ifcId": "0SiGCfIO95Yv2oo1hHyCBB",
+            "elementTypeId": "e003e080-f21b-4f8a-8c4c-4c9c5026cf50",
+            "parent": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+            "name": "Musterprojekt K21 Modell_Entwurf Überarbeitung V9",
+            "type": "TopologyDivision",
+            "number": 1,
+            "id": "054f0a63-36a2-40c8-85d1-4c4050386976"
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "ifcType": "IfcName_None",
+                    "ifcId": "08i3SuPYL9Zgjj7AsPMrPe#0",
+                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                    "parent": "caa5b9d2-a0ab-4438-89ad-a0f5a343419b",
+                    "name": "Projektnummer",
+                    "type": "Topology",
+                    "number": 2,
+                    "id": "9abffa37-d776-49b1-b978-816fb9da9cde"
+                },
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "ifcType": "IfcName_None",
+                            "ifcId": "29dFaj2cP0VR2$KAGBOyUO#0",
+                            "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                            "parent": "18a7bec6-9a33-4723-abad-fad0bf19a24f",
+                            "name": "Oberfläche:504933",
+                            "type": "Topology",
+                            "number": 4,
+                            "id": "1d847f4e-6edc-4736-bcc4-c4d17da132fd"
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "08i3SuPYL9Zgjj7ArcfCgt",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "4c62ca4f-16f1-4548-9dc3-adc08eeea3be",
+                                    "name": "-01 Untergeschoss",
+                                    "type": "Topology",
+                                    "number": 6,
+                                    "id": "83a01b8f-5e55-4894-bb9c-a1f2f085d608"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "08i3SuPYL9Zgjj7ArchCJs",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "4c62ca4f-16f1-4548-9dc3-adc08eeea3be",
+                                    "name": "GOK",
+                                    "type": "Topology",
+                                    "number": 7,
+                                    "id": "1b4da53d-0d2d-4c9d-9dc6-8b5214772e88"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "08i3SuPYL9Zgjj7ArcfCbQ",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "4c62ca4f-16f1-4548-9dc3-adc08eeea3be",
+                                    "name": "00 Erdgeschoss",
+                                    "type": "Topology",
+                                    "number": 8,
+                                    "id": "2947d3cf-c885-4c1a-8f95-ec87a413b613"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "08i3SuPYL9Zgjj7ArcfCeQ",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "4c62ca4f-16f1-4548-9dc3-adc08eeea3be",
+                                    "name": "01 Obergeschoss",
+                                    "type": "Topology",
+                                    "number": 9,
+                                    "id": "ff39749d-a139-4838-bf26-2edacdb7599a"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "08i3SuPYL9Zgjj7ArcfPwJ",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "4c62ca4f-16f1-4548-9dc3-adc08eeea3be",
+                                    "name": "02 Obergeschoss",
+                                    "type": "Topology",
+                                    "number": 10,
+                                    "id": "35ed22a3-c19f-443f-bc23-98c774b5cf57"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "08i3SuPYL9Zgjj7ArceXCO",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "4c62ca4f-16f1-4548-9dc3-adc08eeea3be",
+                                    "name": "03 Dachgeschoss",
+                                    "type": "Topology",
+                                    "number": 11,
+                                    "id": "0826fccf-808f-46aa-90e0-ba6bdb5e8497"
+                                }
+                            ],
+                            "ifcType": "IfcBuilding",
+                            "ifcId": "08i3SuPYL9Zgjj7AsPMrPf",
+                            "elementTypeId": "d72696e0-6f5e-4883-a54d-f36ccb3b5f3b",
+                            "parent": "18a7bec6-9a33-4723-abad-fad0bf19a24f",
+                            "name": "",
+                            "type": "TopologyItem",
+                            "number": 5,
+                            "id": "4c62ca4f-16f1-4548-9dc3-adc08eeea3be"
+                        }
+                    ],
+                    "ifcType": "IfcSite",
+                    "ifcId": "29dFaj2cP0VR2$KAGBOyUO",
+                    "elementTypeId": "d5dcaf7d-adb3-4bba-a4a6-2bdaba9112e4",
+                    "parent": "caa5b9d2-a0ab-4438-89ad-a0f5a343419b",
+                    "name": "Oberfläche:504933",
+                    "type": "Site",
+                    "number": 3,
+                    "id": "18a7bec6-9a33-4723-abad-fad0bf19a24f"
+                }
+            ],
+            "ifcType": "IfcProject",
+            "ifcId": "08i3SuPYL9Zgjj7AsPMrPe",
+            "elementTypeId": "e003e080-f21b-4f8a-8c4c-4c9c5026cf50",
+            "parent": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+            "name": "THM E10",
+            "type": "TopologyDivision",
+            "number": 1,
+            "id": "caa5b9d2-a0ab-4438-89ad-a0f5a343419b"
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "ifcType": "IfcName_None",
+                    "ifcId": "3V44Aa$JTCyAMmUjXvFU1P#0",
+                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                    "parent": "e4443e2d-889d-4787-83cf-7f3a120ef4b4",
+                    "name": "Projektnummer",
+                    "type": "Topology",
+                    "number": 2,
+                    "id": "8884af04-d4c2-4ce1-b3c2-7f08b17caa66"
+                },
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "3V44Aa$JTCyAMmUjY6mdo6",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "f9dc125a-7054-4ff4-afbc-f45a4659604d",
+                                    "name": "OK FFB KG",
+                                    "type": "Topology",
+                                    "number": 5,
+                                    "id": "e0be06cd-0e09-4c4f-8da4-656d41b04d58"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "3V44Aa$JTCyAMmUjY6nTEZ",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "f9dc125a-7054-4ff4-afbc-f45a4659604d",
+                                    "name": "GOK",
+                                    "type": "Topology",
+                                    "number": 6,
+                                    "id": "aed823c3-67aa-4020-8da7-2cf8f508b13f"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "3V44Aa$JTCyAMmUjY6mdzh",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "f9dc125a-7054-4ff4-afbc-f45a4659604d",
+                                    "name": "OK FFB EG",
+                                    "type": "Topology",
+                                    "number": 7,
+                                    "id": "df8aa35b-67de-417c-979e-c360fa68f704"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "3V44Aa$JTCyAMmUjY6nNIv",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "f9dc125a-7054-4ff4-afbc-f45a4659604d",
+                                    "name": "OK Zwischenpodest EG",
+                                    "type": "Topology",
+                                    "number": 8,
+                                    "id": "b088b603-4180-41a3-8f00-4e3e24fa6998"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "3V44Aa$JTCyAMmUjY6mdmh",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "f9dc125a-7054-4ff4-afbc-f45a4659604d",
+                                    "name": "OK FFB 1.OG",
+                                    "type": "Topology",
+                                    "number": 9,
+                                    "id": "b0822551-8ec6-4fec-9b57-fce876b2c11f"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "3V44Aa$JTCyAMmUjY6nNEO",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "f9dc125a-7054-4ff4-afbc-f45a4659604d",
+                                    "name": "OK Zwischenpodest 1.OG",
+                                    "type": "Topology",
+                                    "number": 10,
+                                    "id": "30469032-7e53-4796-81fb-11b2bc79d5bd"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "3V44Aa$JTCyAMmUjY6moYY",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "f9dc125a-7054-4ff4-afbc-f45a4659604d",
+                                    "name": "OK FFB 2. OG",
+                                    "type": "Topology",
+                                    "number": 11,
+                                    "id": "29306182-afc5-4b97-9407-d35677486cc2"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "3V44Aa$JTCyAMmUjY6nLhp",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "f9dc125a-7054-4ff4-afbc-f45a4659604d",
+                                    "name": "OK FFB DG",
+                                    "type": "Topology",
+                                    "number": 12,
+                                    "id": "7862390a-8a61-4283-91f9-852418f7eb18"
+                                },
+                                {
+                                    "children": [],
+                                    "ifcType": "IfcBuildingStorey",
+                                    "ifcId": "3V44Aa$JTCyAMmUjY6ojiI",
+                                    "elementTypeId": "699c3feb-d9fa-4c3a-a91a-e1615a843d76",
+                                    "parent": "f9dc125a-7054-4ff4-afbc-f45a4659604d",
+                                    "name": "UK Decke Aula",
+                                    "type": "Topology",
+                                    "number": 13,
+                                    "id": "9e0fa92d-8211-4d87-832b-cd583278d23e"
+                                }
+                            ],
+                            "ifcType": "IfcBuilding",
+                            "ifcId": "3V44Aa$JTCyAMmUjXvFU1O",
+                            "elementTypeId": "d72696e0-6f5e-4883-a54d-f36ccb3b5f3b",
+                            "parent": "2efaa4be-7275-47b2-8578-8ff22ad960c3",
+                            "name": "",
+                            "type": "TopologyItem",
+                            "number": 4,
+                            "id": "f9dc125a-7054-4ff4-afbc-f45a4659604d"
+                        }
+                    ],
+                    "ifcType": "IfcSite",
+                    "ifcId": "3V44Aa$JTCyAMmUjXvFU1R",
+                    "elementTypeId": "d5dcaf7d-adb3-4bba-a4a6-2bdaba9112e4",
+                    "parent": "e4443e2d-889d-4787-83cf-7f3a120ef4b4",
+                    "name": "Default",
+                    "type": "Site",
+                    "number": 3,
+                    "id": "2efaa4be-7275-47b2-8578-8ff22ad960c3"
+                }
+            ],
+            "ifcType": "IfcProject",
+            "ifcId": "3V44Aa$JTCyAMmUjXvFU1P",
+            "elementTypeId": "e003e080-f21b-4f8a-8c4c-4c9c5026cf50",
+            "parent": "227cc83c-bd1e-4967-9da4-f9597347e0b1",
+            "name": "Modell E10 Gebäude_test_1",
+            "type": "TopologyDivision",
+            "number": 1,
+            "id": "e4443e2d-889d-4787-83cf-7f3a120ef4b4"
+        }
+    ],
+    "elementTypeId": "8d27ae6d-3c9a-4201-8a4d-bf0225861788",
+    "parent": null,
+    "name": "We are the Bimswarm",
+    "type": "Project",
+    "number": 0,
+    "id": "227cc83c-bd1e-4967-9da4-f9597347e0b1"
+}
