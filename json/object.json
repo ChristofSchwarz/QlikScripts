@@ -1,0 +1,759 @@
+[
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "75655bf7-7073-4495-bb6c-7281b5e9a071",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Serverraum",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "U.15",
+                "dd070bbe-634d-4688-9852-396d596921c6": "RectangleProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Serverraum U.15",
+                "0a82e443-295c-4124-941f-f20976bd348f": "38,659 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0,
+                "c2d5d8f5-c70d-4a21-884d-37c6d6859a3d": 2738.77053711856,
+                "2a1b7e94-4cb4-4665-acb5-af7c24297aeb": 4033.00268005303
+            },
+            "general": {
+                "name": "U.15",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "3dOFhkoOL4JOZt6iZS9AeM",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "319de7c2-0e8d-4371-9541-63dc55581443",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Werkstatt",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "U.10",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryClosedProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Werkstatt U.10",
+                "0a82e443-295c-4124-941f-f20976bd348f": "39,231 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "U.10",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "3dOFhkoOL4JOZt6iZS9AeC",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "61f84ef5-1e1f-43ef-b248-cea27dbaff88",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Lager",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "L.09",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryClosedProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Lager L.09",
+                "0a82e443-295c-4124-941f-f20976bd348f": "28,981 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "L.09",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "3dOFhkoOL4JOZt6iZS9Ae4",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "d21fe812-dd3b-4105-bacc-3bc76bdc7d79",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Durchgang",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "Durchgang:821700",
+                "dd070bbe-634d-4688-9852-396d596921c6": "RectangleProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Durchgang",
+                "0a82e443-295c-4124-941f-f20976bd348f": "28,715 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0,
+                "c2d5d8f5-c70d-4a21-884d-37c6d6859a3d": 2999.27350848844,
+                "2a1b7e94-4cb4-4665-acb5-af7c24297aeb": 2735.41551584958
+            },
+            "general": {
+                "name": "Durchgang:821700",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "3dOFhkoOL4JOZt6iZS9Afv",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "ed210a06-e617-4dc3-b4bb-b2e32056333c",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Lager",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "Lager:823591",
+                "dd070bbe-634d-4688-9852-396d596921c6": "RectangleProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Lager",
+                "0a82e443-295c-4124-941f-f20976bd348f": "55,71 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0,
+                "c2d5d8f5-c70d-4a21-884d-37c6d6859a3d": 2514.45206541655,
+                "2a1b7e94-4cb4-4665-acb5-af7c24297aeb": 6330.24951141321
+            },
+            "general": {
+                "name": "Lager:823591",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "0Zl2nXOorCtgwg3O0o2nLy",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "5baf3c88-9eba-41a3-acab-2f211827e30b",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Lager",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "Lager:823597",
+                "dd070bbe-634d-4688-9852-396d596921c6": "RectangleProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Lager",
+                "0a82e443-295c-4124-941f-f20976bd348f": "26,278 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0,
+                "c2d5d8f5-c70d-4a21-884d-37c6d6859a3d": 2740.86954766053,
+                "2a1b7e94-4cb4-4665-acb5-af7c24297aeb": 2739.27350848844
+            },
+            "general": {
+                "name": "Lager:823597",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "0Zl2nXOorCtgwg3O0o2nLs",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "82ae4601-601c-426f-ac2d-70a1923ab80d",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Lager/    Durchgang",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "Lager/    Durchgang:823603",
+                "dd070bbe-634d-4688-9852-396d596921c6": "RectangleProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Lager/    Durchgang",
+                "0a82e443-295c-4124-941f-f20976bd348f": "33,31 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0,
+                "c2d5d8f5-c70d-4a21-884d-37c6d6859a3d": 2739.27350848844,
+                "2a1b7e94-4cb4-4665-acb5-af7c24297aeb": 3474.37996375268
+            },
+            "general": {
+                "name": "Lager/    Durchgang:823603",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "0Zl2nXOorCtgwg3O0o2nLe",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "7bfa74ca-4724-4385-b29d-3fb330d51344",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Modelbauwerkstatt",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "Modelbauwerkstatt:821668",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryClosedProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Modelbauwerkstatt",
+                "0a82e443-295c-4124-941f-f20976bd348f": "163,339 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "Modelbauwerkstatt:821668",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "3dOFhkoOL4JOZt6iZS9AeP",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "22d60b61-3ccf-4552-8175-bc0a456a01a5",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Durchgang",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "Durchgang:823629",
+                "dd070bbe-634d-4688-9852-396d596921c6": "RectangleProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Durchgang",
+                "0a82e443-295c-4124-941f-f20976bd348f": "14,497 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0,
+                "c2d5d8f5-c70d-4a21-884d-37c6d6859a3d": 1512.3347361014,
+                "2a1b7e94-4cb4-4665-acb5-af7c24297aeb": 2738.77053711856
+            },
+            "general": {
+                "name": "Durchgang:823629",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "0Zl2nXOorCtgwg3O0o2nKM",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "463ba68b-aa07-49d8-bf1d-26acafa9c41b",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Lager",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "U.12",
+                "dd070bbe-634d-4688-9852-396d596921c6": "RectangleProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Lager U.12",
+                "0a82e443-295c-4124-941f-f20976bd348f": "32,813 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0,
+                "c2d5d8f5-c70d-4a21-884d-37c6d6859a3d": 3423.16497070545,
+                "2a1b7e94-4cb4-4665-acb5-af7c24297aeb": 2738.77053711856
+            },
+            "general": {
+                "name": "U.12",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "0Zl2nXOorCtgwg3O0o2nKn",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "0bd6f995-b61f-4dc9-8f64-2f0065843d33",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Kellerflur",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "Kellerflur:823673",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryClosedProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Kellerflur",
+                "0a82e443-295c-4124-941f-f20976bd348f": "220,445 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "Kellerflur:823673",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "1AgmsHy2HCuhIEdDAwKJOT",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "5f148afc-5511-4167-9153-65bdc177bf66",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Haustechnik",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "U.13",
+                "dd070bbe-634d-4688-9852-396d596921c6": "RectangleProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Haustechnik U.13",
+                "0a82e443-295c-4124-941f-f20976bd348f": "12,34 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0,
+                "c2d5d8f5-c70d-4a21-884d-37c6d6859a3d": 2438.84390595289,
+                "2a1b7e94-4cb4-4665-acb5-af7c24297aeb": 1445.69501750183
+            },
+            "general": {
+                "name": "U.13",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "1AgmsHy2HCuhIEdDAwKJRU",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "85e7f4bd-70f4-444e-8e22-2f583f2e18dc",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Lager",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "U.06",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryClosedProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Lager U.06",
+                "0a82e443-295c-4124-941f-f20976bd348f": "32,217 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "U.06",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "1AgmsHy2HCuhIEdDAwKJGZ",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "203c8d7e-53e6-45ca-916e-ea537354ce9f",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Elekt. Einrichtung",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "Elekt. Einrichtung:824138",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryClosedProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Elekt. Einrichtung",
+                "0a82e443-295c-4124-941f-f20976bd348f": "35,359 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "Elekt. Einrichtung:824138",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "1AgmsHy2HCuhIEdDAwKJGk",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "eff2de26-cb47-4662-8f25-7b611ea87b29",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Haustechnik",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "U.05",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryClosedProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Haustechnik U.05",
+                "0a82e443-295c-4124-941f-f20976bd348f": "132,883 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "U.05",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "1AgmsHy2HCuhIEdDAwKJG$",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "c9a23e24-0269-41f7-ab22-1d5c85d02473",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Lager",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "Lager:826002",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryClosedProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Lager",
+                "0a82e443-295c-4124-941f-f20976bd348f": "68,931 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "Lager:826002",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "1AgmsHy2HCuhIEdDAwKJts",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "a70cd335-8339-4db7-a8c1-cb5ca95fe6f2",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Aufenthalt",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "L.04",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryClosedProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Aufenthalt L.04",
+                "0a82e443-295c-4124-941f-f20976bd348f": "139,907 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "L.04",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "1AgmsHy2HCuhIEdDAwKJnZ",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "32e5988b-4a19-457f-a155-bd67ebbf689f",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Caféteria",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "Caféteria:826818",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryProfileDefWithVo",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Caféteria",
+                "0a82e443-295c-4124-941f-f20976bd348f": "184,996 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "Caféteria:826818",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "1amkF_CD56SwJRoBbfhGoj",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    },
+    {
+        "elementtyp": "885fb391-013b-4baa-b35b-1b50f6b7d31b",
+        "id": "657be95b-deff-4f3c-bc1f-4954b951396f",
+        "type": "Room",
+        "layerid": "09e623d4-1e12-4a77-b358-ea1d0b28e4a7",
+        "attributes": {
+            "content": {
+                "faf9f5f1-29c0-4a44-a920-1eed360c8abd": "Werkstatt",
+                "6046e0ba-e227-4372-9250-70d20b5bee17": "False",
+                "266c9bce-a967-4fea-bec1-2aaa6b52f04e": "U.11",
+                "dd070bbe-634d-4688-9852-396d596921c6": "ArbitraryClosedProfile",
+                "a74b62d6-6bdd-4526-8c25-7f3f771f692f": "Werkstatt U.11",
+                "0a82e443-295c-4124-941f-f20976bd348f": "30,977 m³",
+                "696dbed4-4030-454d-8031-0c4d4b5362f0": 1,
+                "1638d134-0608-4563-bc91-e576089c189d": 0.0
+            },
+            "general": {
+                "name": "U.11",
+                "description": ""
+            },
+            "elementstate": {
+                "state": "0aaf5a1c-2453-40cb-9232-315119dd288f"
+            },
+            "ifc": {
+                "ifcgloballyuniqueid": "3bIdtR6znDQehJwUVBUlrb",
+                "ifcelementtype": "IfcSpace"
+            },
+            "element": {
+                "divisionid": "9C431BBB-A985-4154-A477-45A4FE6E5CD7"
+            }
+        },
+        "localizedAttributeGroups": {
+            "content": "Content",
+            "general": "General",
+            "elementstate": "ElementState",
+            "ifc": "IFC",
+            "element": "Element"
+        }
+    }
+]
