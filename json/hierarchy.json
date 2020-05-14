@@ -1,65 +1,65 @@
 {
-  "name":"Maria",
+  "firstname":"Maria",
   "children":[
     {
-      "name":"Traude",
+      "firstname":"Traude",
       "children":[
         {
-          "name":"Christine",
+          "firstname":"Christine",
           "children":[]
         },
         {
-          "name":"Christof",
+          "firstname":"Christof",
           "children":[
             {
-              "name":"Julia"
+              "firstname":"Julia"
             },
             {
-              "name":"Eva"
+              "firstname":"Eva"
             }
           ]
         }        
       ]
     },
     {
-      "name":"Marlies",
+      "firstname":"Marlies",
       "children":[
         {
-          "name":"Birgit",
+          "firstname":"Birgit",
           "children":[
             {
-              "name":"Marlene"
+              "firstname":"Marlene"
             },
             {
-              "name":"Johannes"
+              "firstname":"Johannes"
             }
           ]
         },
         {
-          "name":"Wolfgang",
+          "firstname":"Wolfgang",
           "children":[
             {
-              "name":"Annina",
+              "firstname":"Annina",
               "children":[]
             },
             {
-              "name":"Benedikt",
+              "firstname":"Benedikt",
               "children":[]
             },
             {
-              "name":"Clemens",
+              "firstname":"Clemens",
               "children":[]
             }
           ]
         },
         {
-          "name":"Heidi",
+          "firstname":"Heidi",
           "children":[
             {
-              "name":"Kirsten"
+              "firstname":"Kirsten"
             },
             {
-              "name":"Rebekka"
+              "firstname":"Rebekka"
             }
           ]
         }
