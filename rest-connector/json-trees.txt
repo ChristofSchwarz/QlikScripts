@@ -1,21 +1,30 @@
+
+// ▼ Replace with your connection string to the REST source. I am using a generic one, because
+//   anything except for the Method (GET/POST) can be passed as "WITH CONNECTION" arguments below.
 LIB CONNECT TO 'Generic Get Request (qmi-qs-sn_vagrant)';
 
 // By Christof Schwarz
-// More info see 
-// target data model table 
+// More info see https://github.com/ChristofSchwarz/QlikScripts/tree/master/rest-connector
+
+// ▼▼▼ Check values for in all variables below
+// ▼ target data model table 
 LET vDataTable = 'JsonTree'; 
-// list of fields in each JSON array, field names MUST be in double-quotes, comma-separated
+// ▼ list of fields in each JSON array, field names MUST be in double-quotes, comma-separated
 //SET vJsonFields = ["id", "name", "ifcType", "ifcId", "type", "number", "elementTypeId"];
 SET vJsonFields = ["firstname"];
-//
+// ▼ same list of fields as used in the LOAD block, can be renamed or formulas applied, no double-quotes needed
 //SET vQlikFields = id, If(Len(name),name,id) AS name, ifcType, ifcId, type, number, elementTypeId;
 SET vQlikFields = firstname AS name;
+// ▼ Which field has the "name" of each node -> used in the hierarchy load (paths
 SET vNameField = name;
+// ▼ Fieldname in the target table to hold the level counter
 SET vLevelField = 'HierarchyLevel';
+// ▼ separator sign to join the path from the root e.g. grandma\mum\me
 SET vPathSep = '\';
+// ▼ Key in your Json which has the child-node array
 LET vChildrenKey = 'children';
-SET vQryHeader = 'SELECT';
-SET vQryFooter = FROM JSON (wrap on) "root" PK "%KEY_L1" // dont change this
+// ▼ change the "WITH CONNECTION" part accordingly, passing url and required other http arguments
+SET vQryFooter = FROM JSON (wrap on) "root" PK "%KEY_L1" // ◄ dont change this row
   WITH CONNECTION (
     URL "https://raw.githubusercontent.com/ChristofSchwarz/QlikScripts/master/json/hierarchy.json"
     //URL "https://raw.githubusercontent.com/ChristofSchwarz/QlikScripts/master/json/2.json"
@@ -23,6 +32,8 @@ SET vQryFooter = FROM JSON (wrap on) "root" PK "%KEY_L1" // dont change this
     //HTTPHEADER "Content-Type" "application/json",
     //BODY "$(vAuthBody)"
   );
+// ▼ Leave the below default values unchanged
+SET vQryHeader = 'SELECT';
 LET vCurrLvl = 1;
 LET vParentLvl = 0;
 LET vIndent1 = '';
@@ -77,8 +88,8 @@ DROP TABLE [$(vDataTable)_tmp];
 
 
 
-
-// Create a recursive table so that a parent hits all childs anywhere below his hierarchy
+// ▼ Create a recursive table so that a selection on a parent node also 
+//   selects hits all childs, grandchilds ... and entire hierarchy below
 [$(vDataTable)_recursive]: LOAD * INLINE [%$(vDataTable).NodeId];
 
 FOR vCurrLvl = 1 TO vParentLvl
@@ -92,7 +103,7 @@ FOR vCurrLvl = 1 TO vParentLvl
   	HierarchyLevel >= $(vCurrLvl);  
 NEXT vCurrLvl
 
-// Deleting all temporary Variables
+// ▼ Deleting all temporary Variables
 //LET vDataTable = Null();
 LET vJsonFields = Null();
 LET vQlikFields = Null();
