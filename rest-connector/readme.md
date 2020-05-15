@@ -1,6 +1,7 @@
 # Tricks with Qlik Sense REST Connector
 
-lorem ipsum
+In this chapter I am showing advanced tricks to import Json Structures with Qlik Sense's native REST Connector.
+
 
 | Topic             | Script | Example App |
 | ----------------- | ------ | ----------- |
