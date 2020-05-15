@@ -1,0 +1,112 @@
+LIB CONNECT TO 'Generic Get Request (qmi-qs-sn_vagrant)';
+
+// By Christof Schwarz
+// More info see 
+// target data model table 
+LET vDataTable = 'JsonTree'; 
+// list of fields in each JSON array, field names MUST be in double-quotes, comma-separated
+//SET vJsonFields = ["id", "name", "ifcType", "ifcId", "type", "number", "elementTypeId"];
+SET vJsonFields = ["firstname"];
+//
+//SET vQlikFields = id, If(Len(name),name,id) AS name, ifcType, ifcId, type, number, elementTypeId;
+SET vQlikFields = firstname AS name;
+SET vNameField = name;
+SET vLevelField = 'HierarchyLevel';
+SET vPathSep = '\';
+LET vChildrenKey = 'children';
+SET vQryHeader = 'SELECT';
+SET vQryFooter = FROM JSON (wrap on) "root" PK "%KEY_L1" // dont change this
+  WITH CONNECTION (
+    URL "https://raw.githubusercontent.com/ChristofSchwarz/QlikScripts/master/json/hierarchy.json"
+    //URL "https://raw.githubusercontent.com/ChristofSchwarz/QlikScripts/master/json/2.json"
+    //QUERY "" "",
+    //HTTPHEADER "Content-Type" "application/json",
+    //BODY "$(vAuthBody)"
+  );
+LET vCurrLvl = 1;
+LET vParentLvl = 0;
+LET vIndent1 = '';
+LET vIndent2 = '  ';
+LET vNL = CHR(10);
+
+
+// Create empty table
+[$(vDataTable)_tmp]: LOAD * INLINE [%$(vDataTable).NodeId, %$(vDataTable).ParentId];
+
+DO
+  // loop as long as more children records are found
+  
+    LET vQry = vQryHeader & vNL & vIndent2 & vJsonFields & ','
+        & vNL & vIndent2 & '"%KEY_L$(vCurrLvl)",' 
+        & vNL & vIndent2 & '"%FK_L$(vParentLvl)"'
+        & vNL & vQryFooter;
+
+    TRACE -----;
+    TRACE $(vQry);
+    TRACE -----;
+    LET vRecsBefore = NoOfRows(vDataTable & '_tmp');
+
+    CONCATENATE ([$(vDataTable)_tmp])
+    LOAD 
+        '$(vCurrLvl):' & %KEY_L$(vCurrLvl) AS [%$(vDataTable).NodeId],
+       // $(vCurrLvl) AS level,
+        $(vQlikFields),
+        If($(vParentLvl) > 0, '$(vParentLvl):' & %FK_L$(vParentLvl)) AS [%$(vDataTable).ParentId]
+    ;    
+    SQL $(vQry);
+
+    LET vRecsAdded = NoOfRows(vDataTable & '_tmp') - vRecsBefore;
+    TRACE $(vRecsAdded) new records added.;
+    
+    IF vRecsAdded > 0 THEN
+        LET vParentLvl = vCurrLvl;
+        LET vCurrLvl = vCurrLvl + 1;
+        LET vIndent1 = Repeat('  ',vParentLvl);
+        LET vIndent2 = Repeat('  ',vCurrLvl);
+        LET vQryHeader = vQryHeader & vNL & vIndent1 & '(SELECT';
+        LET vQryFooter = vIndent1 & 'FROM "$(vChildrenKey)" PK "%KEY_L$(vCurrLvl)" FK "%FK_L$(vParentLvl)")' & vNL & vQryFooter;
+    END IF
+    
+LOOP UNTIL vRecsAdded = 0;
+
+[$(vDataTable)]:
+HIERARCHY ([%$(vDataTable).NodeId], [%$(vDataTable).ParentId], [$(vNameField)], '$(vNameField).parent', [$(vNameField)], '$(vNameField).path', '$(vPathSep)', '$(vLevelField)')
+LOAD * RESIDENT [$(vDataTable)_tmp];
+
+DROP TABLE [$(vDataTable)_tmp];
+
+
+
+
+// Create a recursive table so that a parent hits all childs anywhere below his hierarchy
+[$(vDataTable)_recursive]: LOAD * INLINE [%$(vDataTable).NodeId];
+
+FOR vCurrLvl = 1 TO vParentLvl
+  CONCATENATE ([$(vDataTable)_recursive])
+  LOAD 
+      [%$(vDataTable).NodeId]
+      ,SubField([$(vNameField).path], '$(vPathSep)', $(vCurrLvl)) AS [$(vNameField).tree]
+  RESIDENT
+      [$(vDataTable)]
+  WHERE
+  	HierarchyLevel >= $(vCurrLvl);  
+NEXT vCurrLvl
+
+// Deleting all temporary Variables
+//LET vDataTable = Null();
+LET vJsonFields = Null();
+LET vQlikFields = Null();
+//LET vNameField = Null();
+//LET vLevelField = Null();
+LET vPathSep = Null();
+LET vChildrenKey = Null();
+LET vQryHeader = Null();
+LET vQryFooter = Null();
+LET vQry = Null();
+LET vCurrLvl = Null();
+LET vParentLvl = Null();
+LET vIndent1 = Null();
+LET vIndent2 = Null();
+LET vNL = Null();
+LET vRecsBefore = Null();
+LET vRecsAdded = Null();
