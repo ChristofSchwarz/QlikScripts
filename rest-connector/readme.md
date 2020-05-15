@@ -4,4 +4,4 @@ lorem ipsum
 
 | Topic             | Script | Example App |
 | ----------------- | ------ | ----------- |
-| Import Json Trees | [Link](json-tree.txt) | |
+| Import Json Trees | [Link](json-trees.txt) | |
