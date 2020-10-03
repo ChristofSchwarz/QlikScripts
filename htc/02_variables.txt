@@ -1,0 +1,41 @@
+SET vShowCond1 = Len(Bericht) * Len(Datenart) * Len(Betrieb);
+SET vShowMsg1 = 'Nur ein Bericht, nur ein Betrieb, nur eine Datenart';
+
+LET vSpaces = ' ' & CHR(160) & ' ';
+SET vPivotBgColor = If(Dimensionality()=1,'#3182df');
+
+SET vNumFormat = '#.##0', ',', '.';
+
+Toggle_tmp:
+LOAD 
+    Toggle, Prefix, Replace(Formula,'§','$') AS Toggle.Formula, Suffix 
+INLINE `Toggle | Prefix | Formula | Suffix
+
+	Werte   |Pick(Dimensionality(),'',|If(Count({<Level={$i}>}Wert),Num(Sum({<Level={$i}>}Wert*Factor),§(vNumFormat))) | )
+    Struktur|                         |Min(DISTINCT {<Datenart=,Jahr=,Zeit_ID=,Betrieb=>} Zeile)
+    SE+Typ  |                         |"Concat(DISTINCT SE_ID&';'&Typ, '|')"
+
+` (delimiter is '|')
+WHERE NOT Toggle LIKE '//*';
+
+LEFT JOIN 
+LOAD SubField('2,3,4', ',') AS i AUTOGENERATE(1);
+
+Toggle_tmp2:
+NOCONCATENATE LOAD DISTINCT
+    Toggle, Prefix, Replace(Toggle.Formula, '$i', i) AS Toggle.Formula, Suffix
+RESIDENT
+	Toggle_tmp;
+        
+DROP TABLE Toggle_tmp;    
+
+Toggle:
+LOAD 
+	Toggle, 
+    Only(Prefix) & Concat(Toggle.Formula,',',RecNo()) & Only(Suffix) AS Toggle.Formula
+RESIDENT
+    Toggle_tmp2
+GROUP BY
+	Toggle;
+    
+DROP TABLE Toggle_tmp2;    
