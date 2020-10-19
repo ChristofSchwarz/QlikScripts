@@ -1,4 +1,4 @@
-Download <a href="csshacks.qvf">the app</a>.
+Download <a href="CSS%20Hacks.qvf">the app</a>.
 
 Video resource: https://www.youtube.com/watch?v=9lhL3Nrel5Q
 
