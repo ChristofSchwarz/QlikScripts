@@ -1,0 +1,5 @@
+$Effect                      | $CSS
+Pivot: Null Values invisible | .cell.ng-scope.null-value {background-color:rgba(0,0,0,0); color: rgba(0,0,0,0); font-size:0px;}
+Pivot: Bold cells as normal  | .qv-pt .cell.bold { font-weight: 300; }
+Multi-KPI: Hide object.      | .qv-object-qlik-multi-kpi { display:none; }
+Pivot: No dropdown listboxes | [tid="meta.rows"],[tid="meta.columns"] {display:none;}
