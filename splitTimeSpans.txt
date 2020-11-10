@@ -1,7 +1,7 @@
 SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat, parCutDateField, parCutFormat, parDurationField, parCheckSums)
 
-// Sub splits time-spans into multiple rows, when the span crosses a time-cut. The time-cut is indireclty by a
-// Resolution parameter ...
+// Sub splits time-spans into multiple rows, when the span crosses give time-cuts. The time-cuts are, indirectly, defined by 
+// a Resolution parameter, e.g. each day = 1 cut ...
 // 
 // parTable (obligatory) ... name of the table where your From and To dates are found
 // parFromField (obligatory) ... name of the From date field
@@ -37,7 +37,7 @@ SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat
     LET subCutFormat = If(Len('$(parCutFormat)'), '$(parCutFormat)', '$(parFormat)');
     LET subResolution = Num(parResolution , '','.',' ');  // Format parameter to US num format
     LET subRowsBefore = NoOfRows('$(parTable)');
-    LET subCheckSums = If(Len('$(parCheckSums)'), $(parCheckSums), 1);
+    LET subCheckSums = Alt('$(parCheckSums)', 1);
     
     // Phase 1) add the Floor of FROM and TO
     TRACE SUB SplitTimeSpans - Phase 1;
