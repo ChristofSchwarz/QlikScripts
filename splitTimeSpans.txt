@@ -1,5 +1,6 @@
 SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat, parCutDateField, parCutFormat, parDurationField, parCheckSums)
-
+    TRACE Calling sub "SplitTimeSpans" by Christof Schwarz;
+    
 // Sub splits time-spans into multiple rows, when the span crosses give time-cuts. The time-cuts are, indirectly, defined by 
 // a Resolution parameter, e.g. each day = 1 cut ...
 // 
