@@ -1,3 +1,5 @@
+// download app from https://github.com/ChristofSchwarz/QlikScripts/raw/master/Worldmap%20dotted.qvf
+
 TextMap: 
 LOAD Mid(@1,2) AS @1 
 INLINE [                      
