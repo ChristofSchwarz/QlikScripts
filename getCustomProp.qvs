@@ -19,6 +19,17 @@ SUB getCustomProp (param_LibConnection, param_custPropName, param_varPrefix, par
     //    or because you plan to call this sub multiple times and want to save the time to query 
     //    the QRS API again (the result would be the same a second later ;-)
 
+    // Examples to call this sub:
+
+    // Set explicitly custom properties "namespace" and "ShowInMashup" to a variable "namespace" and
+    // "vShowInMashup". Break if not found. Don't drop REST response table until the last call.
+    // CALL getCustomProp ('$(vLibRestGET)', 'namespace', '', 1, 1);    // set variable namespace
+    //CALL getCustomProp ('$(vLibRestGET)', 'ShowInMashup', 'v', 1, 0); // set variable vShowInMashup
+
+    // Turn all Custom Properties into variables with a prefix "v". Continue, even
+    // if no Custom Property is set.
+    // CALL getCustomProp ('$(vLibRestGET)', '*', 'v', 0, 0);
+
     LET v_tmp_XrfKey = 'databridge' & Left(PurgeChar(Repeat(Rand(),3),'.'),6);
     LET v_tmp_ThisAppId = DocumentName();
   
@@ -111,13 +122,3 @@ SUB getCustomProp (param_LibConnection, param_custPropName, param_varPrefix, par
 
 END SUB
 
-// Examples to call this sub:
-
-// Set explicitly custom property "namespace" into a variable. Break if not found.
-// Don't drop REST response table until last assignment (avoid resending API call)
-// CALL getCustomProp ('$(vLibRestGET)', 'namespace', '', 1, 1);     // set variable namespace
-//CALL getCustomProp ('$(vLibRestGET)', 'ShowInMashup', 'v', 1, 0); // set variable vShowInMashup
-
-// Turn all Custom Properties into variables with a prefix "v". Continue, even
-// if no Custom Property is set.
-// CALL getCustomProp ('$(vLibRestGET)', '*', 'v', 0, 0);
