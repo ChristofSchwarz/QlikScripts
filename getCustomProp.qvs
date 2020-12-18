@@ -6,25 +6,36 @@ SUB getCustomProp (param_LibConnection, param_custPropName, param_varPrefix, par
 
     // This sub queries the QRS API to get the custom properties of the current application and
     // puts them into a variable (or variables, since wildcards are possible it can do all at once).
-    // It needs as parameters:
+    
+    // To setup the virtual proxy follow these instructions: 
+    // https://community.qlik.com/t5/Qlik-Sense-Documents/How-to-access-QRS-Repository-from-Load-Script/ta-p/1484264
+    
+    // The sub needs the following parameters:
+    
     // 1) the name of a http-GET REST Connection (defined in your data connections)
     //    note that you also have to set two global variables outside the script to
     //    define the http-header key and value for authentication
+    
     // 2) The name or pattern (wildcards allowed!) to look for in the custom property namespace
+    
     // 3) a possible prefix (typically 'v') for the variable name (the variable name matches the 
     //    custom property name)
+    
     // 4) set to 1 if your script MUST assign the given variable. If such a custom property doesn't 
     //    exist on this application, it breaks the script execution
+    
     // 5) set to 1 to leave the tmp_CustProps table in the data model, either because you're curious 
     //    or because you plan to call this sub multiple times and want to save the time to query 
     //    the QRS API again (the result would be the same a second later ;-)
-
+    
+    // Christof Schwarz, 18-Dec-2020
+    
     // Examples to call this sub:
 
     // Set explicitly custom properties "namespace" and "ShowInMashup" to a variable "namespace" and
     // "vShowInMashup". Break if not found. Don't drop REST response table until the last call.
-    // CALL getCustomProp ('$(vLibRestGET)', 'namespace', '', 1, 1);    // set variable namespace
-    //CALL getCustomProp ('$(vLibRestGET)', 'ShowInMashup', 'v', 1, 0); // set variable vShowInMashup
+    // CALL getCustomProp ('REST GET (vm1_christof.schwarz)', 'namespace', '', 1, 1);   
+    // CALL getCustomProp ('REST GET (vm1_christof.schwarz)', 'ShowInMashup', 'v', 1, 0); 
 
     // Turn all Custom Properties into variables with a prefix "v". Continue, even
     // if no Custom Property is set.
