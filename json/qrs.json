@@ -1,52 +1,10 @@
 [
     {
-        "id": "88d9202f-8f33-4092-9b5a-f47fc856729a",
-        "createdDate": "2020-12-22T09:13:28.949Z",
-        "modifiedDate": "2020-12-22T09:13:28.949Z",
-        "modifiedByUserName": "INTERNAL\\sa_scheduler",
-        "executingNode": {
-            "id": "8ed91f3f-8206-40be-a610-e389f6a18171",
-            "privileges": null
-        },
-        "executionResult": {
-            "id": "02f18379-585a-47e5-b6de-7fb4c876713f",
-            "executingNodeName": "vm-i-qs-dev.internal.cloudapp.net",
-            "status": 2,
-            "startTime": "2020-12-22T09:13:28.800Z",
-            "stopTime": "1753-01-01T00:00:00.000Z",
-            "duration": 0,
-            "fileReferenceID": "00000000-0000-0000-0000-000000000000",
-            "scriptLogAvailable": false,
-            "details": [
-                {
-                    "id": "de850f3c-48aa-40f5-b8d8-ccf3efda0b28",
-                    "detailsType": 2,
-                    "message": "Changing task state to Triggered",
-                    "detailCreatedDate": "2020-12-22T09:13:28.800Z",
-                    "privileges": null
-                },
-                {
-                    "id": "98b9ebe6-9924-48c6-bc86-ae54653dbac6",
-                    "detailsType": 2,
-                    "message": "Changing task state from Triggered to Started",
-                    "detailCreatedDate": "2020-12-22T09:13:29.061Z",
-                    "privileges": null
-                },
-                {
-                    "id": "0689694b-d0f2-466d-b48f-2f064d55b2d2",
-                    "detailsType": 2,
-                    "message": "Trying to start task. Sending task to slave scheduler vm-i-qs-dev.internal.cloudapp.net",
-                    "detailCreatedDate": "2020-12-22T09:13:28.934Z",
-                    "privileges": null
-                }
-            ],
-            "scriptLogLocation": "",
-            "scriptLogSize": -1,
-            "privileges": null
-        },
-        "abortAt": "2020-12-23T09:13:28.800Z",
-        "retries": 0,
-        "abortReason": 0,
+        "id": "b7a5ba3b-d9db-4302-904b-bdcd61658eae",
+        "createdDate": "2020-12-22T07:14:46.384Z",
+        "modifiedDate": "2020-12-22T10:26:03.406Z",
+        "modifiedByUserName": "VM-I-QS-DEV\\christof.schwarz",
+        "customProperties": [],
         "app": {
             "id": "39334b5c-330f-485a-8d22-6e9679a85899",
             "name": "Worldmap dotted(1)",
@@ -59,60 +17,75 @@
             "availabilityStatus": 0,
             "privileges": null
         },
-        "user": "VM-I-QS-DEV;christof.schwarz",
-        "reloadTask": {
-            "id": "b7a5ba3b-d9db-4302-904b-bdcd61658eae",
-            "operational": {
-                "id": "37a02b9e-2657-417d-8bfd-6f17b2ccb1af",
-                "lastExecutionResult": {
-                    "id": "02f18379-585a-47e5-b6de-7fb4c876713f",
-                    "executingNodeName": "vm-i-qs-dev.internal.cloudapp.net",
-                    "status": 2,
-                    "startTime": "2020-12-22T09:13:28.800Z",
-                    "stopTime": "1753-01-01T00:00:00.000Z",
-                    "duration": 0,
-                    "fileReferenceID": "00000000-0000-0000-0000-000000000000",
-                    "scriptLogAvailable": false,
-                    "details": [
-                        {
-                            "id": "de850f3c-48aa-40f5-b8d8-ccf3efda0b28",
-                            "detailsType": 2,
-                            "message": "Changing task state to Triggered",
-                            "detailCreatedDate": "2020-12-22T09:13:28.800Z",
-                            "privileges": null
-                        },
-                        {
-                            "id": "98b9ebe6-9924-48c6-bc86-ae54653dbac6",
-                            "detailsType": 2,
-                            "message": "Changing task state from Triggered to Started",
-                            "detailCreatedDate": "2020-12-22T09:13:29.061Z",
-                            "privileges": null
-                        },
-                        {
-                            "id": "0689694b-d0f2-466d-b48f-2f064d55b2d2",
-                            "detailsType": 2,
-                            "message": "Trying to start task. Sending task to slave scheduler vm-i-qs-dev.internal.cloudapp.net",
-                            "detailCreatedDate": "2020-12-22T09:13:28.934Z",
-                            "privileges": null
-                        }
-                    ],
-                    "scriptLogLocation": "",
-                    "scriptLogSize": -1,
-                    "privileges": null
-                },
-                "nextExecution": "1753-01-01T00:00:00.000Z",
+        "isManuallyTriggered": false,
+        "operational": {
+            "id": "37a02b9e-2657-417d-8bfd-6f17b2ccb1af",
+            "lastExecutionResult": {
+                "id": "f3414839-45fd-42c2-bf97-6fa709baf86d",
+                "executingNodeName": "vm-i-qs-dev.internal.cloudapp.net",
+                "status": 7,
+                "startTime": "2020-12-22T10:43:55.642Z",
+                "stopTime": "2020-12-22T10:44:17.429Z",
+                "duration": 21787,
+                "fileReferenceID": "714917e9-7f92-4ccc-a5e8-2c460c409da5",
+                "scriptLogAvailable": false,
+                "details": [
+                    {
+                        "id": "a5e51d47-8f37-4098-8de1-14be4739207c",
+                        "detailsType": 2,
+                        "message": "Changing task state to Triggered",
+                        "detailCreatedDate": "2020-12-22T10:43:55.643Z",
+                        "privileges": null
+                    },
+                    {
+                        "id": "e92e5f7e-5100-4541-8235-165f0235ffdb",
+                        "detailsType": 2,
+                        "message": "Reference to scriptlog added",
+                        "detailCreatedDate": "2020-12-22T10:44:17.392Z",
+                        "privileges": null
+                    },
+                    {
+                        "id": "fc6b0e1d-58e0-42a7-b138-529509f15759",
+                        "detailsType": 2,
+                        "message": "Changing task state from Started to FinishedSuccess",
+                        "detailCreatedDate": "2020-12-22T10:44:17.475Z",
+                        "privileges": null
+                    },
+                    {
+                        "id": "526806b6-729c-4e1f-a169-fb1f0a66553d",
+                        "detailsType": 2,
+                        "message": "Changing task state from Triggered to Started",
+                        "detailCreatedDate": "2020-12-22T10:43:55.872Z",
+                        "privileges": null
+                    },
+                    {
+                        "id": "6de92b5a-d4c6-4253-bf9d-14e09e7ad901",
+                        "detailsType": 2,
+                        "message": "Trying to start task. Sending task to slave scheduler vm-i-qs-dev.internal.cloudapp.net",
+                        "detailCreatedDate": "2020-12-22T10:43:55.763Z",
+                        "privileges": null
+                    }
+                ],
+                "scriptLogLocation": "vm-i-qs-dev.internal.cloudapp.net\\Script\\39334b5c-330f-485a-8d22-6e9679a85899.20201222T104356.114+0000.2357CB850323E262E934.log",
+                "scriptLogSize": 9216320,
                 "privileges": null
             },
-            "name": "Partial Reload",
-            "taskType": 0,
-            "enabled": true,
-            "taskSessionTimeout": 1440,
-            "maxRetries": 0,
+            "nextExecution": "1753-01-01T00:00:00.000Z",
             "privileges": null
         },
-        "userSyncTask": null,
-        "externalProgramTask": null,
+        "name": "Partial Reload",
+        "taskType": 0,
+        "enabled": true,
+        "taskSessionTimeout": 1440,
+        "maxRetries": 0,
+        "tags": [
+            {
+                "id": "71a51a83-0e84-481a-9fd7-b2cb03d010e1",
+                "name": "partial",
+                "privileges": null
+            }
+        ],
         "privileges": null,
-        "schemaPath": "ExecutionSession"
+        "schemaPath": "ReloadTask"
     }
 ]
