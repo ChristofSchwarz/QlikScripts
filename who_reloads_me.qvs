@@ -1,5 +1,5 @@
-/* No CSS, but it is Qlik Script */
-TRACE /\ including who_reloads_me.css;
+TRACE /\ including who_reloads_me;
+
 LET vScriptStart = TimeStamp(Now(),'YYYY-MM-DD hh:mm:ss.fff');
 LET vDocId = DocumentName();
 LET vRestConnection = 'HTTP-GET-REST (vm-i-qs-dev_christof.schwarz)';
