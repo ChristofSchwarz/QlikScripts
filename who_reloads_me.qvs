@@ -1,0 +1,101 @@
+/* No CSS, but it is Qlik Script */
+TRACE /\ including who_reloads_me.css;
+LET vScriptStart = TimeStamp(Now(),'YYYY-MM-DD hh:mm:ss.fff');
+LET vDocId = DocumentName();
+LET vRestConnection = 'HTTP-GET-REST (vm-i-qs-dev_christof.schwarz)';
+LET vBaseAPIurl = 'https://qs-i-dev.databridge.ch/header/qrs';
+SET vHttpHeader = "header" "christof.schwarz";
+LET vReloadTaskStart = '';
+LET vReloadTaskName = '';
+LET vReloadTaskId = '';
+LET vReloadTaskTag = '';
+
+
+
+SUB ClearTempVariables
+	LET vHttpHeader = Null();
+	LET vBaseAPIurl = Null();
+	LET vRestConnection = Null();
+END SUB
+
+
+SUB GetExecuteSession(param_restConnection, param_baseAPIurl, param_httpHeader)
+
+	TRACE [connection: $(param_restConnection)];
+	LIB CONNECT TO '$(param_restConnection)';
+	LET v_tmp_xrfkey = Right(PurgeChar(Repeat(Rand(),3),'.,'),6) & 'databridge';
+	LET v_tmp_docId = DocumentName();
+    
+	LET vReloadTaskStart = '';
+    LET vReloadTaskName = '';
+    LET vReloadTaskId = '';
+	LET vReloadTaskTag = '';
+
+	// Calling QRS API executesession endpoint to figure out which task is reloading the script
+
+	tmp_QRS_executionsession:
+	SQL SELECT 
+		"id" AS "session.id",
+	//	"__KEY_root",
+		(SELECT 
+			"id" AS "__execution.id",
+			"executingNodeName" AS "__execution.executingNodeName",
+			"status" AS "__execution.status",
+			"startTime" AS "__execution.startTime"
+	//		"__KEY_executionResult",
+	//		"__FK_executionResult"
+		FROM "executionResult" PK "__KEY_executionResult" FK "__FK_executionResult"),    
+		(SELECT 
+			"id" AS "__task.id",
+			"name" AS "__task.name"
+	//		"__KEY_reloadTask",
+	//		"__FK_reloadTask"
+		FROM "reloadTask" PK "__KEY_reloadTask" FK "__FK_reloadTask")
+	FROM JSON (wrap on) "root" PK "__KEY_root"
+	WITH CONNECTION (
+		URL "$(param_baseAPIurl)/executionsession",
+		QUERY "xrfkey" "$(v_tmp_xrfkey)",
+		QUERY "filter" "app.id eq $(v_tmp_docId)",
+		QUERY "orderBy" "createdDate desc",
+		HTTPHEADER "X-Qlik-Xrfkey" "$(v_tmp_xrfkey)",
+		HTTPHEADER $(param_httpHeader)
+	);
+	
+	IF NoOfRows('tmp_QRS_executionsession') THEN
+		
+		LET vReloadTaskStart = TimeStamp(TimeStamp#(PurgeChar(FieldValue('__execution.startTime', 1),'TZ'), 'YYYY-MM-DDhh:mm:ss.fff'), 'YYYY-MM-DD hh:mm:ss.fff');
+		LET vReloadTaskName = FieldValue('__task.name', 1);
+		LET vReloadTaskId = FieldValue('__task.id', 1);
+	
+		tmp_QRS_task_tags:
+		LOAD 
+			Concat([__tag.name],';') AS [__tag.name];
+		SQL SELECT 
+		//	"__KEY_root",
+			(SELECT 
+				"id" AS "__tag.id",
+				"name" AS "__tag.name"
+		//		"__FK_tags"
+			FROM "tags" FK "__FK_tags")
+		FROM JSON (wrap on) "root" PK "__KEY_root"
+		WITH CONNECTION (
+			URL "$(param_baseAPIurl)/reloadtask/full",
+			QUERY "xrfkey" "$(v_tmp_xrfkey)",
+			QUERY "filter" "id eq $(vReloadTaskId)",
+			HTTPHEADER "X-Qlik-Xrfkey" "$(v_tmp_xrfkey)",
+			HTTPHEADER $(param_httpHeader)
+		);
+		
+		IF NoOfRows('tmp_QRS_task_tags') THEN
+			LET vReloadTaskTag = FieldValue('__tag.name', 1);
+		END IF
+		DROP TABLE tmp_QRS_task_tags;
+		
+	END IF
+	
+	DROP TABLE tmp_QRS_executionsession;
+	
+	DISCONNECT;
+	LET v_tmp_xrfkey = Null();
+	LET v_tmp_docId = Null();
+END SUB
