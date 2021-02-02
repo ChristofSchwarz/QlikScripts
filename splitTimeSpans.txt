@@ -1,34 +1,36 @@
-SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat, parCutDateField, parCutFormat, parDurationField, parCheckSums)
+SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat, parCutDateField, parCutFormat, parDurationField, parFillTo, parCheckSums)
 
 	TRACE Calling sub "SplitTimeSpans" by Christof Schwarz;
     SET subCheckSumTolerance = 0.00001; // acceptable rounding diffences between CheckSum1 and CheckSum2
     
-// Sub splits time-spans into multiple rows, when the span crosses a time-cut. The time-cut is indireclty by a
-// Resolution parameter ...
+// Sub splits time-spans into multiple rows, when the span crosses a time-cut. The time-cut limits are defined by a
+// Resolution parameter :
 // 
-// parTable (obligatory) ... name of the table where your From and To dates are found
-// parFromField (obligatory) ... name of the From date field
-// parToField (obligatory) ... name of the To date field
-// parResolution (obligatory) ... how many multiples of days do you want splitting time-cuts (1 = 1 per day,
-//                                1/24 = 1 per hour)
-// parFormat (obligatory) ... TimestampFormat to parse and render the newly generated From and To timestamp fields 
-//                            e.g. 'YYYY-MM-DD hh:mm:ss'
-// parCutDateField (optional) ... This field will hold the closest cut-date for the given period, this is good
-//                                to link it to your MasterCalendar. If parameter is ommited, the field will
-//                                temporarily be created but removed before the Sub finishes
-// parCutFormat (obligatory) ... Date or TimestampFormat for the newly generated "putCutDateField"  
-//                            e.g. 'YYYY-MM-DD', can also be 'Num' to leave it as a numeric, not a timestamp/date value
-// parDurationField (optional) ... leaves a Duration field of the result rows, so you can easily do Sum(Duration)
-//                                 in your frontend. If parameter is ommited, the duration field will
-//                                 temporarily be created but removed before the Sub finishes. It does so to 
-//                                 compare the initial Sum(~Duration) with the final Sum(~Duration) and will
-//                                 break script execution in case they don't match (logic failed, shouldn't happen)
-// parCheckSums (optional) ... set to 0 to not compare the Sum of Duration before and after the operation (faster
-//                             script execution), default is 1
+// parTable (obligatory)      : name of the table where your From and To dates are found
+// parFromField (obligatory)  : name of the From date field
+// parToField (obligatory)    : name of the To date field
+// parResolution (obligatory) : how many multiples of days do you want splitting time-cuts (1 = 1 per day,
+//                              1/24 = 1 per hour)
+// parFormat (obligatory)     : TimestampFormat to parse and render the newly generated From and To timestamp fields 
+//                              e.g. 'YYYY-MM-DD hh:mm:ss'
+// parCutDateField (optional) : This field will hold the closest cut-date for the given period, this is good
+//                              to link it to your MasterCalendar. If parameter is ommited, the field will
+//                              temporarily be created but removed before the Sub finishes
+// parCutFormat (obligatory)  : Date or TimestampFormat for the newly generated "putCutDateField"  
+//                              e.g. 'YYYY-MM-DD', can also be 'Num' to leave it as a numeric, not a timestamp/date value
+// parDurationField (optional): leaves a Duration field of the result rows, so you can easily do Sum(Duration)
+//                              in your frontend. If parameter is ommited, the duration field will
+//                              temporarily be created but removed before the Sub finishes. It does so to 
+//                              compare the initial Sum(~Duration) with the final Sum(~Duration) and will
+//                              break script execution in case they don't match (logic failed, shouldn't happen)
+// parFillTo (optional)       : put 'Now()' (as string) if you want to fill missing To-Date/times up to Now(). If no
+//                              fill value or 'Null()' is given, no filling of missing To-values is made
+// parCheckSums (optional)    : set to 0 to not compare the Sum of Duration before and after the operation (faster
+//                              script execution), default is 1
 // Examples:
-// CALL SplitTimeSpans ('My Intervals', 'FROM DATE', 'TO DATE', 1, 'YYYY-MM-DD hh:mm:ss','%CALDATE', 'YYYY-MM-DD', 'DURATION', 0);
-// CALL SplitTimeSpans ('My Intervals', 'FROM DATE', 'TO DATE', 1, 'YYYY-MM-DD hh:mm:ss','%CALDATE', 'Num', 'DURATION', 0);
-// CALL SplitTimeSpans ('tFACTS', 'FromDateTime', 'ToDateTime', 1/24, 'DD.MM.YYYY hh:mm:ss', Null(), Null(), 'Duration', 1);
+// CALL SplitTimeSpans ('My Intervals', 'FROM DATE', 'TO DATE', 1, 'YYYY-MM-DD hh:mm:ss','%CALDATE', 'YYYY-MM-DD', 'DURATION', 'Now()' 0);
+// CALL SplitTimeSpans ('My Intervals', 'FROM DATE', 'TO DATE', 1, 'YYYY-MM-DD hh:mm:ss','%CALDATE', 'Num', 'DURATION', 'Now()', 0);
+// CALL SplitTimeSpans ('tFACTS', 'FromDateTime', 'ToDateTime', 1/24, 'DD.MM.YYYY hh:mm:ss', Null(), Null(), 'Duration', Null(), 1);
 // CALL SplitTimeSpans ('Facts', 'Facts.From', 'Facts.To', 0.5, 'MM/DD/YYYY hh:mm:ss');
 //
 // The resulting table has more rows than the original (provided that some durations spun across multiple time cuts).
@@ -56,16 +58,30 @@ SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat
     LET subCheckSums = Alt('$(parCheckSums)', 1);
     LET subFormatFunct = If(parCutFormat LIKE 'NUM', 'Num', 'TimeStamp');
     LET subFormatParam = If(parCutFormat LIKE 'NUM', '', ',''$(subFormatParam)'' ');
+    LET subFillTo = If(Len('$(parFillTo)'), parFillTo, 'Null()');
+    
+    // Get all existing fields of the table into a comma-separated list in "subLoadBlock". If the fields
+    // are the From- and To-fields as per the parameters, load them into fieldname + ".Original" 
+    LET subLoadBlock = '';
+    FOR subV = 1 TO NoOfFields(parTable)
+        LET subField = FieldName(subV, parTable);
+        IF Match(subField, parFromField, parToField) THEN
+    		LET subLoadBlock = subLoadBlock & If(Len(subLoadBlock),', ') & '[$(subField)] AS [$(subField).Original]';
+        ELSE
+            LET subLoadBlock = subLoadBlock & If(Len(subLoadBlock),', ') & '[$(subField)]';
+        ENDIF
+    NEXT subV;
     
     // Phase 1) add the Floor of FROM and TO
     TRACE SUB SplitTimeSpans - Phase 1;
     [$(parTable)~1]:
     LOAD 
-        *,
-        [$(parToField)] - [$(parFromField)] AS [$(subDurationField)],
-        //Hash256(Floor([$(parFromField)], $(subResolution)), Floor([$(parToField)], $(subResolution))) AS [$(parFromField)+$(parToField)],
+        $(subLoadBlock),
+        [$(parFromField)],
+        Alt([$(parToField)], TimeStamp($(parFillTo),'$(parFormat)')) AS [$(parToField)],
+        Alt([$(parToField)], TimeStamp($(parFillTo),'$(parFormat)')) - [$(parFromField)] AS [$(subDurationField)],
         Floor([$(parFromField)], $(subResolution)) AS [$(parFromField).Floor], 
-        Floor([$(parToField)], $(subResolution)) AS [$(parToField).Floor]
+        Floor(Alt([$(parToField)], TimeStamp($(parFillTo),'$(parFormat)')), $(subResolution)) AS [$(parToField).Floor]
     RESIDENT    
         [$(parTable)];       
    
@@ -116,7 +132,7 @@ SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat
     LOAD DISTINCT [$(parFromField).Floor], [$(parToField).Floor]
     RESIDENT [$(parTable)~1];
     DROP TABLE [~Cuts];
-    
+ 
     [$(parTable)~Exploder]:
     MAPPING LOAD 
     	Hash256([$(parFromField).Floor], [$(parToField).Floor]),
@@ -146,7 +162,8 @@ SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat
     [$(parTable)~2]:
     LOAD 
     	*,
-       TimeStamp([$(parToField).New] - [$(parFromField).New], 'hh:mm:ss') AS [$(subDurationField)],
+       //TimeStamp([$(parToField).New] - [$(parFromField).New], 'h:mm:ss') AS [$(subDurationField)],
+       Num([$(parToField).New] - [$(parFromField).New]) AS [$(subDurationField)],
        Fabs([$(parFromField).New]=[$(parFromField)]) AS [$(parFromField).IsOrig]
     ;    
     LOAD 
@@ -156,7 +173,7 @@ SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat
     ;       
     LOAD // Explode rows into multiple rows using ApplyMap and SubField (to avoid large tables to join)
         $(subFormatFunct) (SubField(  // this "syntax-error" is okay
-           ApplyMap('$(parTable)~Exploder',Hash256([$(parFromField).Floor], [$(parToField).Floor]), Chr(9))
+           ApplyMap('$(parTable)~Exploder',Hash256([$(parFromField).Floor], [$(parToField).Floor]), Null())
         ,Chr(9)) $(subFormatParam)) AS [$(subCutDateField)],    
         *
     RESIDENT 
@@ -190,10 +207,14 @@ SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat
     RENAME TABLE [$(parTable)~2] TO [$(parTable)];
     WHEN subCutDateField = '$(parTable)~CutDate' DROP FIELD [$(parTable)~CutDate] FROM [$(parTable)];
     WHEN subDurationField = '$(parTable)~Duration' DROP FIELD [$(parTable)~Duration] FROM [$(parTable)];
-    RENAME FIELD [$(parFromField)] TO [$(parFromField).Original];
-    RENAME FIELD [$(parToField)] TO [$(parToField).Original];
+    DROP FIELD [$(parFromField)];
+    DROP FIELD [$(parToField)];
     RENAME FIELD [$(parFromField).New] TO [$(parFromField)];
     RENAME FIELD [$(parToField).New] TO [$(parToField)];
+    //RENAME FIELD [$(parFromField)] TO [$(parFromField).Original];
+    //RENAME FIELD [$(parToField)] TO [$(parToField).Original];
+    //RENAME FIELD [$(parFromField).New] TO [$(parFromField)];
+    //RENAME FIELD [$(parToField).New] TO [$(parToField)];
     // remove temp variables (created inside this sub)
     LET subDurationField = Null();
     LET subCutDateField = Null();
@@ -207,5 +228,6 @@ SUB SplitTimeSpans (parTable, parFromField, parToField, parResolution, parFormat
     LET subCheckSumTolerance = Null();
     LET vCalMinDate = Null();
     LET vCalMaxDate = Null();
-        
+    LET subV = Null();
+    LET subLoadBlock = Null();
 END SUB
