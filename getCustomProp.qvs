@@ -41,7 +41,7 @@ SUB getCustomProp (param_LibConnection, param_custPropName, param_varPrefix, par
     // if no Custom Property is set.
     // CALL getCustomProp ('$(vLibRestGET)', '*', 'v', 0, 0);
 
-    LET v_tmp_XrfKey = 'databridge' & Left(PurgeChar(Repeat(Rand(),3),'.'),6);
+    LET v_tmp_XrfKey = 'databridge' & Left(PurgeChar(Repeat(Rand(),3),'.,'),6);
     LET v_tmp_ThisAppId = DocumentName();
   
     IF IsNull(TableNumber('tmp_CustProps')) THEN
