@@ -1,8 +1,9 @@
-  TRACE SUB CreatePrevNextVar($(paramField), $(paramType), $(paramPrecision));
+SUB CreatePrevNextVar(paramField, paramType, paramPrecision)
+
   /*
   This sub will create 4 variables for a given fieldname (provided in paramField). The
-  paramType is one of the following: 
-  Txt or Text, Num or Numeric, Dual, Date, DateTime or Timestamp (case-insensitive)
+  paramType is one of the following (case-insensitive): 
+  Txt or Text, Int or Integer, Num or Numeric, Dual, Date, DateTime or Timestamp 
   
   The optional 3rd parameter is Precision and is needed for numeric values with decimals
   (a timestamp for example has up to 9 digits after the decimal sign!) and it defines how
@@ -16,13 +17,21 @@
   [vPrev:ProductCategory] ... a search string for the [Prev] Action Button
   [vNextVal:ProductCategory] ... a text with the next value after the current
   [vPrevVal:ProductCategory] ... a text with the previous value after the current
-  
+
+  For a timestamp field you'd CALL CreatePrevNextVar('CreationDateTime', 'timestamp')
+  and you get 4 variables:
+  [vNext:CreationDateTime] ... a search string for the [Next] Action Button
+  [vPrev:CreationDateTime] ... a search string for the [Prev] Action Button
+  [vNextVal:CreationDateTime] ... a text with the next value after the current
+  [vPrevVal:CreationDateTime] ... a text with the previous value after the current
   */
   
-   
+  // Get an intelligent default for privPrecision, if paramPrecision was omitted
   IF '$(paramPrecision)' = '' THEN
       IF Wildmatch(paramType, 'Datetime','Timestamp') THEN
           LET privPrecision = Num(1/24/3600/1000/2, '', '.', ' ');
+      ELSEIF Wildmatch(paramType, 'Num*') THEN
+          SET privPrecision = 1E-9;
       ELSE
           LET privPrecision = 0;
       END IF
@@ -32,6 +41,7 @@
   
   TRACE `SUB CreatePrevNextVar('$(paramField)', '$(paramType)', $(privPrecision))`;
 
+  // Create Next Value and Prev Value variables
   LET [vNextVal:$(paramField)] = 'If(IsNull([$(paramField)]), MinString([$(paramField)]),
     MinString(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) > Only(TOTAL [$(paramField)])"}>} [$(paramField)])
   )';
@@ -39,13 +49,15 @@
     MaxString(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) < Only(TOTAL [$(paramField)])"}>} [$(paramField)])
   )';
   
+  // Create the search strings for the Next and Prev Action Buttons based on the type 
+  
   IF paramType LIKE 'T*xt' THEN
   
     LET [vNext:$(paramField)] = CHR(39) & '=Only({<[$(paramField)]=>}[$(paramField)])=''''$' & '(=' & [vNextVal:$(paramField)] & ')''''' & CHR(39);    
     LET [vPrev:$(paramField)] = CHR(39) & '=Only({<[$(paramField)]=>}[$(paramField)])=''''$' & '(=' & [vPrevVal:$(paramField)] & ')''''' & CHR(39);    ;
     LET privPrecision = Null();
       
-  ELSEIF Wildmatch(paramType, 'Num*', 'Dual','Date','Datetime','Timestamp') THEN
+  ELSEIF Wildmatch(paramType, 'Num*', 'Int*', 'Dual', 'Date', 'Datetime', 'Timestamp') THEN
   
     LET [vNext:$(paramField)] = 'Num(If(IsNull([$(paramField)]), Min([$(paramField)]),
       Min(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) > Only(TOTAL [$(paramField)])"}>} [$(paramField)])
