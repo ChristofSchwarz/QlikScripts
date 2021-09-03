@@ -1,58 +1,72 @@
   TRACE SUB CreatePrevNextVar($(paramField), $(paramType), $(paramPrecision));
   /*
   This sub will create 4 variables for a given fieldname (provided in paramField). The
-  paramType is one of the following: Txt or Text, Num or Numeric, Dual
-  The optional 3rd parameter is Precision and is needed for numeric or dual values
-  with lots of decimals (that is the case for timestamps for example!) and it defines
-  many digits after the decimal need to be identical for a match (e.g. 1e-8 or 1e-9)
+  paramType is one of the following: 
+  Txt or Text, Num or Numeric, Dual, Date, DateTime or Timestamp (case-insensitive)
+  
+  The optional 3rd parameter is Precision and is needed for numeric values with decimals
+  (a timestamp for example has up to 9 digits after the decimal sign!) and it defines how
+  many digits after the decimal need to be identical for a match (e.g. 1e-8 or 1e-9).
+  The 3rd parameter will get an intelligent default if you don't provide it.
+  
+  Examples: 
+  For a text field you'd CALL CreatePrevNextVar('ProductCategory', 'Text')
+  and you get 4 variables:
+  [vNext:ProductCategory] ... a search string for the [Next] Action Button
+  [vPrev:ProductCategory] ... a search string for the [Prev] Action Button
+  [vNextVal:ProductCategory] ... a text with the next value after the current
+  [vPrevVal:ProductCategory] ... a text with the previous value after the current
+  
   */
   
-  IF paramType LIKE 'T*xt' THEN
-
-    LET [vNext:$(paramField)] = 'If(IsNull([$(paramField)]), MinString([$(paramField)]),
-      MinString(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) > Only(TOTAL [$(paramField)])"}>} [$(paramField)])
-    )';
-    LET [vNext:$(paramField)] = CHR(39) & '=Only({<[$(paramField)]=>}[$(paramField)])=''''$' & '(=' & [vNext:$(paramField)] & ')''''' & CHR(39);    
-    LET [vNextVal:$(paramField)] = 'If(IsNull([$(paramField)]), MinString([$(paramField)]),
-      MinString(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) > Only(TOTAL [$(paramField)])"}>} [$(paramField)])
-    )';
-    
-    LET [vPrev:$(paramField)] = 'If(IsNull([$(paramField)]), MaxString([$(paramField)]),
-      MaxString(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) < Only(TOTAL [$(paramField)])"}>} [$(paramField)])
-    )';
-    LET [vPrev:$(paramField)] = CHR(39) & '=Only({<[$(paramField)]=>}[$(paramField)])=''''$' & '(=' & [vPrev:$(paramField)] & ')''''' & CHR(39);    ;
-    LET [vPrevVal:$(paramField)] = 'If(IsNull([$(paramField)]), MaxString([$(paramField)]),
-      MaxString(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) < Only(TOTAL [$(paramField)])"}>} [$(paramField)])
-    )';
-    
-  ELSEIF Wildmatch(paramType, 'Num*', 'Dual') THEN
+   
+  IF '$(paramPrecision)' = '' THEN
+      IF Wildmatch(paramType, 'Datetime','Timestamp') THEN
+          LET privPrecision = Num(1/24/3600/1000/2, '', '.', ' ');
+      ELSE
+          LET privPrecision = 0;
+      END IF
+  ELSE
+      LET privPrecision = Num(Alt('$(paramPrecision)', 0), '', '.', ' ');
+  END IF
   
-    LET [vNextVal:$(paramField)] = 'If(IsNull([$(paramField)]), MinString([$(paramField)]),
-      MinString(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) > Only(TOTAL [$(paramField)])"}>} [$(paramField)])
-    )';
-    LET [vPrevVal:$(paramField)] = 'If(IsNull([$(paramField)]), MaxString([$(paramField)]),
-      MaxString(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) < Only(TOTAL [$(paramField)])"}>} [$(paramField)])
-    )';
+  TRACE `SUB CreatePrevNextVar('$(paramField)', '$(paramType)', $(privPrecision))`;
+
+  LET [vNextVal:$(paramField)] = 'If(IsNull([$(paramField)]), MinString([$(paramField)]),
+    MinString(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) > Only(TOTAL [$(paramField)])"}>} [$(paramField)])
+  )';
+  LET [vPrevVal:$(paramField)] = 'If(IsNull([$(paramField)]), MaxString([$(paramField)]),
+    MaxString(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) < Only(TOTAL [$(paramField)])"}>} [$(paramField)])
+  )';
+  
+  IF paramType LIKE 'T*xt' THEN
+  
+    LET [vNext:$(paramField)] = CHR(39) & '=Only({<[$(paramField)]=>}[$(paramField)])=''''$' & '(=' & [vNextVal:$(paramField)] & ')''''' & CHR(39);    
+    LET [vPrev:$(paramField)] = CHR(39) & '=Only({<[$(paramField)]=>}[$(paramField)])=''''$' & '(=' & [vPrevVal:$(paramField)] & ')''''' & CHR(39);    ;
+    LET privPrecision = Null();
+      
+  ELSEIF Wildmatch(paramType, 'Num*', 'Dual','Date','Datetime','Timestamp') THEN
+  
     LET [vNext:$(paramField)] = 'Num(If(IsNull([$(paramField)]), Min([$(paramField)]),
       Min(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) > Only(TOTAL [$(paramField)])"}>} [$(paramField)])
     ),'''',''.'','' '')';
     LET [vPrev:$(paramField)] = 'Num(If(IsNull([$(paramField)]), Max([$(paramField)]),
       Max(TOTAL {<[$(paramField)]={"=Only({<[$(paramField)]=>}[$(paramField)]) < Only(TOTAL [$(paramField)])"}>} [$(paramField)])
     ),'''',''.'','' '')';
-    IF '$(paramPrecision)' = '' OR '$(paramPrecision)' = '0' THEN
+    IF privPrecision = 0 THEN
       LET [vNext:$(paramField)] = CHR(39) & '=Only({<[$(paramField)]=>}[$(paramField)]) = $' & '(=' & [vNext:$(paramField)] & ')' & CHR(39);
       LET [vPrev:$(paramField)] = CHR(39) & '=Only({<[$(paramField)]=>}[$(paramField)]) = $' & '(=' & [vPrev:$(paramField)] & ')' & CHR(39);
     ELSE
-      LET [vNext:$(paramField)] = CHR(39) & '=FAbs(Only({<[$(paramField)]=>}[$(paramField)]) - $' & '(=' & [vNext:$(paramField)] & ')) < ' 
-      & Num(paramPrecision,'','.',' ') & CHR(39);
-      LET [vPrev:$(paramField)] = CHR(39) & '=FAbs(Only({<[$(paramField)]=>}[$(paramField)]) - $' & '(=' & [vPrev:$(paramField)] & ')) < '
-      & Num(paramPrecision,'','.',' ') & CHR(39);
+      LET [vNext:$(paramField)] = CHR(39) & '=FAbs(Only({<[$(paramField)]=>}[$(paramField)]) - $' & '(=' & [vNext:$(paramField)] & ')) < ' & privPrecision & CHR(39);
+      LET [vPrev:$(paramField)] = CHR(39) & '=FAbs(Only({<[$(paramField)]=>}[$(paramField)]) - $' & '(=' & [vPrev:$(paramField)] & ')) < ' & privPrecision & CHR(39);
     END IF
- 
+ 	LET privPrecision = Null();
+    
   ELSE
-     // Throw error
-     [SUB CreatePrevNextVar: Unknown Field type $(paramType), only Text and Num allowed];
-
+  
+    LET privPrecision = Null();
+    // Throw error 
+    [SUB CreatePrevNextVar: Unknown Field type "$(paramType)"];
   END IF
 
 END SUB
