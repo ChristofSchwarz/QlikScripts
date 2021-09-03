@@ -1,6 +1,12 @@
+TRACE including https://github.com/ChristofSchwarz/QlikScripts/blob/master/next-prev-buttons.txt;
+TRACE Version 1.0;
+
 SUB CreatePrevNextVar(paramField, paramType, paramPrecision)
 
   /*
+  Author: Christof Schwarz
+  Version: 1.0 - 04-SEP-2021
+  
   This sub will create 4 variables for a given fieldname (provided in paramField). The
   paramType is one of the following (case-insensitive): 
   Txt or Text, Int or Integer, Num or Numeric, Dual, Date, DateTime or Timestamp 
