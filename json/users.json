@@ -1,0 +1,49 @@
+{
+    "links": {
+        "self": {
+            "href": "https://databridge-internal.eu.qlikcloud.com/api/v1/users?fields=id%2Cname%2Croles%2Cstatus%2Cemail&limit=0&tenantId=2GgxmrcJqlqFqh3G6qyOzW6azMMlKHJn"
+        }
+    },
+    "data": [
+        {
+            "id": "LZusNVxhmfXTtUNgntZmIxtBSumq7vde",
+            "status": "active",
+            "name": "Gregor Haus",
+            "roles": [
+                "TenantAdmin",
+                "Developer",
+                "SharedSpaceCreator",
+                "DataSpaceCreator",
+                "ManagedSpaceCreator",
+                "AnalyticsAdmin",
+                "DataAdmin"
+            ],
+            "email": "gregor.haus@data.br"
+        },
+        {
+            "id": "YXwVYjQ6FYXvyMTpklxNJ4QJvd0oOpqZ",
+            "status": "active",
+            "name": "Patric Omatolli",
+            "roles": [
+                "TenantAdmin",
+                "Developer",
+                "SharedSpaceCreator"
+            ],
+            "email": "patric@data.br"
+        },
+        {
+            "id": "t8api6x30tg7ynNeTjS-Vm7YjY86hyDG",
+            "status": "active",
+            "name": "Thomas Allein",
+            "roles": [],
+            "email": "thomas.allein@nothing.com"
+        },
+        {
+            "id": "iD3jQx5qZRBwOJCNhLZhAqe-xPr5SjnD",
+            "status": "active",
+            "name": "Valentin Cascapero",
+            "roles": [],
+            "email": "valentin.cascapero@something.com"
+        }
+    ]
+}
