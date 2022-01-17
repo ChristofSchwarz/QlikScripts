@@ -1,0 +1,75 @@
+{
+    "subType": "user",
+    "internalClaims": {
+        "sub": "PJG24Kuta2Zq3rw_HlYoXqEr5SUJtNKLJQ0MRxqfDmo",
+        "tenantId": "2GgxmrcJqlqFqh3G6qyOzW6azMMlKHJn",
+        "subType": "user",
+        "userId": "xk--6oE9m6ZX8CEMrYTnwi3m0OKtRuGH",
+        "roles": [
+            "TenantAdmin",
+            "Developer",
+            "SharedSpaceCreator"
+        ],
+        "name": "Christof Schwarz",
+        "email": "christof.schwarz@databridge.ch",
+        "email_verified": true,
+        "sid": "+COZnOz4pA8TBJNfBiyDJqPybvdGmIoT7C7D7MX8BvA=",
+        "jti": "dCfu4M_XSTZsnYYOKAkH8Ie91eGF8Ipm",
+        "iat": 1642411663,
+        "exp": 1642411963,
+        "aud": "qlik.api.internal",
+        "iss": "qlik.api.internal"
+    },
+    "claimSource": "id-token",
+    "claimsFromIdp": {
+        "aud": "20af2134-75ca-4024-a95b-b7af44aeb44b",
+        "iss": "https://login.microsoftonline.com/59a56ddf-6752-4573-a4f5-d971ad02a407/v2.0",
+        "iat": 1642410858,
+        "nbf": 1642410858,
+        "exp": 1642414758,
+        "groups": [
+            "3211b1a1-3c2c-427f-971f-a9c519b89be1",
+            "ffed9459-bbc8-4367-a297-7504e453baa8",
+            "7a71c2ee-1121-402a-915e-8450f8dc34e6",
+            "472d8886-f4b0-4035-afb3-3eda24cba5b8"
+        ],
+        "name": "Christof Schwarz",
+        "nonce": "-FnK6kjeqSQOEi1m-eT7gT8pxWBZofW94VaKel1fBKQ",
+        "oid": "a6fa95f2-ea4b-4912-aa2e-57530c548da6",
+        "preferred_username": "christof.schwarz@databridge.ch",
+        "rh": "0.ATEA322lWVJnc0Wk9dlxrQKkBzQhryDKdSRAqVu3r0SutEsxAK0.",
+        "sub": "PJG24Kuta2Zq3rw_HlYoXqEr5SUJtNKLJQ0MRxqfDmo",
+        "tenant_ctry": "IL",
+        "tid": "59a56ddf-6752-4573-a4f5-d971ad02a407",
+        "upn": "christof.schwarz@databridge.ch",
+        "uti": "10AXEgly4EakEGt-2j8SAg",
+        "ver": "2.0"
+    },
+    "mappedClaims": {
+        "aud": "20af2134-75ca-4024-a95b-b7af44aeb44b",
+        "iss": "https://login.microsoftonline.com/59a56ddf-6752-4573-a4f5-d971ad02a407/v2.0",
+        "iat": 1642410858,
+        "nbf": 1642410858,
+        "exp": 1642414758,
+        "nonce": "-FnK6kjeqSQOEi1m-eT7gT8pxWBZofW94VaKel1fBKQ",
+        "oid": "a6fa95f2-ea4b-4912-aa2e-57530c548da6",
+        "preferred_username": "christof.schwarz@databridge.ch",
+        "rh": "0.ATEA322lWVJnc0Wk9dlxrQKkBzQhryDKdSRAqVu3r0SutEsxAK0.",
+        "tenant_ctry": "IL",
+        "tid": "59a56ddf-6752-4573-a4f5-d971ad02a407",
+        "upn": "christof.schwarz@databridge.ch",
+        "uti": "10AXEgly4EakEGt-2j8SAg",
+        "ver": "2.0",
+        "sub": "PJG24Kuta2Zq3rw_HlYoXqEr5SUJtNKLJQ0MRxqfDmo",
+        "name": "Christof Schwarz",
+        "groups": [
+            "3211b1a1-3c2c-427f-971f-a9c519b89be1",
+            "ffed9459-bbc8-4367-a297-7504e453baa8",
+            "7a71c2ee-1121-402a-915e-8450f8dc34e6",
+            "472d8886-f4b0-4035-afb3-3eda24cba5b8"
+        ],
+        "email": "christof.schwarz@databridge.ch",
+        "email_verified": true,
+        "subType": "user"
+    }
+}
