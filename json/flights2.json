@@ -7,7 +7,7 @@
     ["Schwechat", "Vienna", "Austria", 16.569722, 48.110278],
   ],
   "airlines":[
-    "Austrian"
+    "Austrian","Austrian"
   ],
   "routes":[
     [1,3,1],
