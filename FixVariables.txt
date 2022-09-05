@@ -1,0 +1,21 @@
+SUB FixVariables (pVarListe)
+
+    // replaces the $:( in variables with $( 
+    // and removes the Tab-sign (Chr 9) and Newline-sign (chr 10)
+    // call it like this, comma-spearate multiple variables in the parameter
+    // CALL FixVariables('var1, var2, var3');
+    
+    [~FixVariablen]: 
+    LOAD * INLINE [$(pVarListe)];
+    
+    FOR priv = 1 TO NoOfFields('~FixVariablen');
+        LET vVarName = FieldName(priv, '~FixVariablen');
+        TRACE Fixing variable $(vVarName);
+        LET [$(vVarName)] = Replace(Replace(Replace([$(vVarName)]
+        	,'$:(', '$' & '('), CHR(9), ' '), CHR(10), ' ');
+    NEXT priv;
+    DROP TABLE [~FixVariablen];
+    LET priv = Null();
+    LET vVarName = Null();
+    
+END SUB
