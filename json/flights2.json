@@ -1,0 +1,16 @@
+{
+  "airportsFields": ["name","city","country","longitude","latitude"],
+  "airlineFields":["name"],
+  "airports":[
+    ["Innsbruck", "Innsbruck", "Austria", 11.343964, 47.260219],
+    ["Salzburg", "Salzburg", "Austria", 13.004333, 47.793304],
+    ["Schwechat", "Vienna", "Austria", 16.569722, 48.110278],
+  ],
+  "airlines:[
+    "Austrian"
+  ],
+  "routes":[
+    [1,3,1],
+    [1,2,3]
+  ]
+}
