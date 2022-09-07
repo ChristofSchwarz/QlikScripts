@@ -19,3 +19,4 @@ SUB FixVariables (pVarListe)
     LET vVarName = Null();
     
 END SUB
+TRACE defined SUB FixVariables;
