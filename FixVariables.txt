@@ -1,3 +1,5 @@
+TRACE including FixVariables.txt v1.0;
+
 SUB FixVariables (pVarListe)
 
     // replaces the $:( in variables with $( 
@@ -19,4 +21,4 @@ SUB FixVariables (pVarListe)
     LET vVarName = Null();
     
 END SUB
-TRACE defined SUB FixVariables;
+
