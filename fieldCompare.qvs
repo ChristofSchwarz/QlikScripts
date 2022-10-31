@@ -1,0 +1,80 @@
+SUB fieldCompare(param_table, param_option)
+
+// This sub can be called multiple times and it lists which fields were added or removed
+// between the current call and the previous one. It keeps a table about the fields of the
+// specific table in memory, until the param_option "last" is sent. That marks the last 
+// comparison and it removes the temp table afterwards
+
+    TRACE calling SUB fieldCompare ...; 
+    
+    IF Alt(TableNumber(param_table), -1) = -1 THEN
+        TRACE No such table in data model: $(param_table);
+    ELSE
+        IF Alt(TableNumber('~fields-$(param_table)'), -1) = -1 THEN
+        
+            [~fields-$(param_table)]: 
+            LOAD 
+                FieldName(RecNo(), '$(param_table)') AS [~field],
+                1 AS [~Snap1]
+            AUTOGENERATE(NoOfFields(param_table));
+            
+            LET priv_allFields = '';
+            FOR priv_iter = 1 TO NoOfRows('~fields-$(param_table)')
+                LET priv_allFields = priv_allFields & IF(Len(priv_allFields), ', ') 
+                        & '[' & Peek('~field', priv_iter - 1, '~fields-$(param_table)') & ']';
+                LET priv_Count = priv_Count + 1;
+            NEXT priv_iter
+            
+            LET priv_Count = NoOfFields(param_table);
+            TRACE The table "$(param_table)" has the following $(priv_Count) fields:
+$(priv_allFields);
+
+        ELSE
+        
+            LET priv_snap = NoOfFields('~fields-$(param_table)');
+            OUTER JOIN ([~fields-$(param_table)])
+            LOAD 
+                // JOIN ON
+                FieldName(RecNo(), '$(param_table)') AS [~field],
+                1 AS [~Snap$(priv_snap)]
+            AUTOGENERATE(NoOfFields(param_table));
+            TRACE;
+            
+            LET priv_newFields = '';
+            LET priv_removedFields = '';
+            
+            FOR priv_iter = 1 TO NoOfRows('~fields-$(param_table)')
+            
+                IF Peek('~Snap' & (priv_snap -1), priv_iter - 1, '~fields-$(param_table)') <> 1 THEN
+                    LET priv_newFields = priv_newFields & IF(Len(priv_newFields), ', ') 
+                        & '[' & Peek('~field', priv_iter - 1, '~fields-$(param_table)') & ']';
+                END IF
+                IF Peek('~Snap$(priv_snap)', priv_iter - 1, '~fields-$(param_table)') <> 1 THEN
+                    LET priv_removedFields = priv_removedFields & IF(Len(priv_removedFields), ', ') 
+                        & '[' & Peek('~field', priv_iter - 1, '~fields-$(param_table)') & ']';
+                END IF
+            NEXT priv_iter
+            
+            
+            IF Len(priv_newFields) THEN
+                LET priv_Count = 1 + SubStringCount(priv_newFields, '], [');
+                TRACE The following $(priv_Count) field(s) were added to table "$(param_table)":
+$(priv_newFields);
+            END IF
+            
+            IF Len(priv_removedFields) THEN
+                LET priv_Count = 1 + SubStringCount(priv_removedFields, '], [');
+                TRACE The following $(priv_Count) field(s) were removed from table "$(param_table)":
+$(priv_removedFields);
+            END IF       
+            
+            IF '$(priv_removedFields)$(priv_newFields)' = '' THEN 
+                TRACE Table "$(param_table)" still has same fields as before;
+            END IF
+            IF (param_option LIKE 'last') THEN
+                DROP TABLE [~fields-$(param_table)];
+            END IF
+        END IF
+    END IF
+
+END SUB
