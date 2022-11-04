@@ -1,0 +1,18 @@
+// Puts a comma-separated list of all fields of table except those matching
+// one of the fields or patterns in the vSkipFields variable
+
+LET vOfTable = 'Tabelle1';
+SET vSkipFields = `'%*', 'Column 2'`;  // ignore some fields starting with % or "Column 2"
+SET vSkipFields = `''`;  // use this if you want all fields to be returned 
+LET vFieldList = '';
+FOR vFieldIndex = 1 TO NoOfFields(vOfTable);
+    IF NOT WildMatch(FieldName(vFieldIndex, vOfTable), $(vSkipFields)) THEN
+        LET vFieldList = If(Len(vFieldList), vFieldList & ',[', '[') & FieldName(vFieldIndex, vOfTable) & ']';
+    END IF
+NEXT vFieldIndex
+TRACE Field list of table $(vOfTable):;
+TRACE $(vFieldList);
+// delete temp variables
+LET vFieldIndex = Null();
+LET vOfTable = Null();
+LET vSkipFields = Null();
