@@ -1,0 +1,30 @@
+SUB RemoveFieldsLike (param_table, param_fieldPattern)
+
+	TRACE Calling RemoveFieldsLike on table $(param_table);
+  // removes the fields matching the pattern from the table param_table.
+  // The pattern can be a single value (in single-quotes) or multiple values,
+  // where field names are escaped within square brackets ...
+  
+  // Examples:
+  // CALL RemoveFieldsLike('contracts', 'File_Entry');
+  // CALL RemoveFieldsLike('contracts', '*_Feed');
+  // CALL RemoveFieldsLike('contracts', '[*_Feed],[*_Entry]');
+  
+	LET v_priv_fieldPattern = Replace(Replace(param_fieldPattern, '[', CHR(39)), ']', CHR(39));
+    IF SubStringCount(v_priv_fieldPattern, CHR(39)) = 0 THEN 
+    	LET v_priv_fieldPattern = CHR(39) & v_priv_fieldPattern & CHR(39);
+    END IF;
+    FOR v_priv_i = NoOfFields(param_table) TO 1 STEP -1;
+        LET v_priv_Field = FieldName( v_priv_i, param_table);
+        //TRACE $(v_priv_i) $(v_priv_Field);
+        IF WildMatch(v_priv_Field, $(v_priv_fieldPattern)) THEN
+            DROP FIELD [$(v_priv_Field)] FROM [$(param_table)];
+            TRACE Dropping field [$(v_priv_Field)] from [$(param_table)];
+        ENDIF
+
+    NEXT	
+    LET v_priv_i = Null();
+    LET v_priv_Field = Null();
+    LET v_priv_fieldPattern = Null();
+
+END SUB
