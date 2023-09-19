@@ -1,0 +1,233 @@
+
+
+
+//---------------------------------------------------------------------
+
+SUB analyzeJsonFields(p3_table, p3_position, p3_keyField)
+
+    LET v2_renamings = '';
+    FOR v3_fldIdx = 1 TO NoOfFields('~tJson')
+
+        LET v3_fld = FieldName(v3_fldIdx, '~tJson');
+        //TRACE analyzeJsonFields: $(v3_fld);
+        IF v3_fld <> p3_keyField THEN
+            LET v3_rowsBefore = NoOfRows('~tLoadNext');
+            CONCATENATE ([~tLoadNext])
+            LOAD DISTINCT
+                SubField(
+                    '$(p3_position)/' & (RecNo() - 1) & '/$(v3_fld)' & CHR(10)
+                    & '$(p3_position)/$(v3_fld)', CHR(10)) AS __jsonPos
+                ,'$(v3_fld)' AS __keyField
+                //,PurgeChar('$(v2_fld_qlfd)', '%') AS [__keyPos]
+                ,'$(p3_table).$(v3_fld)' AS __tableName
+            RESIDENT
+                [~tJson]
+            WHERE
+                Len([$(v3_fld)]) = 16 
+                AND Len(PurgeChar([$(v3_fld)],'0123456789ABCDEF')) = 0
+            ;
+            IF NoOfRows('~tLoadNext') > v3_rowsBefore THEN
+                TRACE $(v3_fld) is a key to subobjects;
+                LET v2_renamings = v2_renamings & If(Len(v2_renamings), CHR(10) & ',')
+                    & '[$(v3_fld)] AS [%$(p2_table).$(v3_fld)]';
+            ELSE
+                TRACE $(v3_fld) is a simple value key;
+                LET v2_renamings = v2_renamings & If(Len(v2_renamings), CHR(10) & ',')
+                    // & 'Trim([$(v3_fld)]) AS [$(p2_table).$(v3_fld)]';
+                    & 'If([$(v3_fld)] <> ''null'', [$(v3_fld)]) AS [$(p2_table).$(v3_fld)]';
+                    
+            END IF
+        ELSE
+            TRACE Not adding keyfield $(v3_fld) again to renamings ...;
+        END IF
+    NEXT v3_fldIdx
+    
+    LET v3_fldIdx = Null();
+    LET v3_fld = Null();
+    LET v3_rowsBefore = Null();
+    
+//     TRACE `Renamings: 
+// $(v2_renamings)`;
+
+END SUB 
+
+//---------------------------------------------------------------------
+
+SUB importJsonPos(p2_table, p2_position, p2_keyField)
+
+    // imports data from a given Json source (v1_FROM) and given position (p2_position)
+    // (e.g. Root, Root/3/arr, Root/0/obj/1/arr) into given table (p2_table). If this is 
+    // a subsequent call, the keyFieldName will be provided to link the key values
+    // to a previously loaded table (links they will be prefixed with "%")
+    
+    // Note: This SUB can show multiple errors, as it attempts to load a "naked" array, 
+    // where the values are coming into a pseudo-fieldname "NoName". If this is not
+    // the case, it will show an error but continue to treat it as an Json subobject 
+    // with keys.
+    
+    // Those are script errors that are expected and they will be ignored.
+    
+    LET v1_impJsonPosCalls = v1_impJsonPosCalls + 1;
+  
+    TRACE 🟢$(v1_impJsonPosCalls). CALL importJson('$(p2_table)', '$(p2_position)', '$(p2_keyField)');
+
+
+    LET v2_LoadCmd = If(Alt(TableNumber(p2_table), -1) >= 0
+        ,'CONCATENATE([$(p2_table)])'
+        ,'[$(p2_table)]:'); 
+      
+    LET v2_old_errorMode = ErrorMode;
+    SET ErrorMode = 0;
+
+    LET v2_keyFieldAlias = If(Len(p2_keyField)
+        ,',[$(p2_keyField)] AS [%$(p2_table)]');
+        
+    $(v2_LoadCmd)
+    LOAD 
+        NoName AS [$(p2_table)]
+        $(v2_keyFieldAlias)
+        //,[$(p2_keyField)] AS [%$(p2_keyField)]
+    $(v1_FROM) (json, table is '$(p2_position)');
+
+    LET v2_ScriptError = Num(ScriptError);
+    
+
+    SWITCH v2_ScriptError 
+    
+    CASE 0  // field NoName exists, we are "inside" an array at this position
+    
+        TRACE `[] position '$(p2_position)' is an array of values`;
+//         TRACE `$(v2_LoadCmd)`;
+//         TRACE `NoName AS [$(p2_table)]`;
+//         TRACE `$(v2_keyFieldAlias)`;
+        
+        LET v2_isArray = 1;
+        LET ErrorMode = v2_old_errorMode;
+    
+    CASE 8
+    
+        TRACE `position '$(p2_position)' does not exist`;
+        LET ErrorMode = v2_old_errorMode;
+        
+    CASE 11
+    
+        LET v2_isArray = 0;
+        LET ErrorMode = v2_old_errorMode;
+ 
+         TRACE `{} position '$(p2_position)' is an object with keys`;
+        
+        [~tJson]:
+        LOAD 
+            *
+        $(v1_FROM) (json, table is '$(p2_position)');
+          
+        LET v2_renamings = '';  
+        CALL analyzeJsonFields(p2_table, p2_position, p2_keyField);
+        
+        IF Len(v2_renamings) THEN
+        
+            TRACE `$(v2_LoadCmd)`;
+            TRACE `$(v2_renamings)`;
+            TRACE `$(v2_keyFieldAlias)`;
+
+            $(v2_LoadCmd)
+            LOAD
+                $(v2_renamings)
+                $(v2_keyFieldAlias)
+            RESIDENT [~tJson];
+            
+        END IF
+        
+        DROP TABLE [~tJson];
+    
+    DEFAULT
+    
+        LET ErrorMode = v2_old_errorMode;
+        [Unhandled error $(v2_ScriptError) at position '$(p2_position)'];
+        
+    END SWITCH
+
+    LET v2_LoadCmd = Null();
+    LET v2_old_errorMode = Null();    
+    LET v2_isArray = Null();
+    LET v2_fldIdx = Null();
+    LET v2_fld = Null();
+    LET v2_fld_qlfd = Null();
+    LET v2_rowsBefore = Null();
+    LET v2_keyFieldAlias = Null();
+    // LET v2_prefix = Null();
+    LET v2_ScriptError = Null();
+    LET v2_renamings = Null();
+    
+END SUB
+
+//---------------------------------------------------------------------
+
+SUB importJson(p1_var_or_file, p1_source, p1_table)
+
+    // Sub to import JSON from a VAR or a FILE 
+    
+    // will call importJsonPos in a loop as long as more subobjects or subarrays
+    // are found. In simplest case, it only goes over the Root position, which
+    // is the starting point. 
+    
+    // Parameters:
+    // 1. 'VAR' or 'FILE', defines the type of the 2nd parameter
+    // 2. either a lib://...json string of a lib-path to a .json file
+    //    or a variable that contains the entire JSON object from [..] or {..}
+    // 3. The name of the in-memory table to load the JSON to; note, there
+    //    will be more tables when the JSON object has subobjects, subarrays
+    //    but they all will start with the given name (3rd parameter)
+
+    IF p1_var_or_file LIKE 'VAR*' THEN
+        IF NOT IsJson(p1_source) THEN        
+            [Error in importJson: 2nd parameter does not contain valid JSON.];
+        END IF
+        LET v1_FROM = 'INLINE `$(p1_source)`';
+    ELSEIF p1_var_or_file LIKE 'VAR*' THEN
+        LET v1_FROM = 'FROM [$(p1_source)]';
+    ELSE
+        [Error in SUB importJson: 1st parameter is neither 'VAR' nor 'FILE'.];
+    END IF
+    
+    [~tLoadNext]: 
+    LOAD * INLINE [
+        __tableName, __jsonPos, __keyField
+        $(p1_table), Root
+    ];
+
+    LET v1_impJsonPosCalls = 0;  // just for trace-log a counter of how many times 
+
+    DO
+        LET v1_JsonTable    = Peek('__tableName', 0, '~tLoadNext');
+        LET v1_JsonPosition = Peek('__jsonPos'  , 0, '~tLoadNext');
+        LET v1_JsonKeyField = Peek('__keyField' , 0, '~tLoadNext');
+
+        CALL importJsonPos(v1_JsonTable, v1_JsonPosition, v1_JsonKeyField);
+        
+        [~removing_entry]:
+        NOCONCATENATE LOAD 
+            * 
+        RESIDENT 
+            [~tLoadNext]
+        WHERE 
+            __jsonPos <> '$(v1_JsonPosition)';
+
+        DROP TABLE [~tLoadNext];
+        RENAME TABLE [~removing_entry] TO [~tLoadNext];
+
+//  IF v1_impJsonPosCalls = 6 THEN
+//   EXIT SCRIPT;
+//  END IF
+
+    LOOP UNTIL NoOfRows('~tLoadNext') = 0;
+
+    DROP TABLES [~tLoadNext]; //, [~tKeyPos];
+
+    LET v1_JsonTable = Null();
+    LET v1_JsonPosition = Null();
+    LET v1_JsonKeyField = Null();
+    LET v1_impJsonPosCalls = Null();
+    LET v1_FROM = Null();
+    
+END SUB
