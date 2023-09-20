@@ -1,6 +1,6 @@
 This folder has a simple solution for importing .json files into Qlik Sense. 
 
-Include or paste the script found in <a href="(https://raw.githubusercontent.com/ChristofSchwarz/QlikScripts/master/json/_importJson.qvs)" target="_blank">_importJson.qvs</a> 7
+Include or paste the script found in <a href="https://raw.githubusercontent.com/ChristofSchwarz/QlikScripts/master/json/_importJson.qvs" target="_blank">_importJson.qvs</a> 
 to your app script.
 
 If you wwant to load the entire file into a QS table, call
