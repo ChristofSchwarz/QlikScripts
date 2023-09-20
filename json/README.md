@@ -1,16 +1,16 @@
 This folder has a simple solution for importing .json files into Qlik Sense. 
 
-Include or paste the script found in <a href="_importJson.qvs">_importJson.qvs</a> to your app
-script.
+Include or paste the script found in <a href="(https://raw.githubusercontent.com/ChristofSchwarz/QlikScripts/master/json/_importJson.qvs)" target="_blank">_importJson.qvs</a> 7
+to your app script.
 
 If you wwant to load the entire file into a QS table, call
 ```
-CALL importJson('lib://connection/folder/file.json', 'qsTableName');
+CALL importJson('lib://connection/folder/file.json', 'myTable');
 ```
 
 If you want to load the file starting from a certain sub-object position and below, call
 ```
-CALL importJson('lib://connection/folder/file.json', 'qsTableName', 'data');
+CALL importJson('lib://connection/folder/file.json', 'myTable', 'data');
 ```
 where data is the position.
 
