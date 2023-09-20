@@ -1,6 +1,3 @@
-
-
-
 //---------------------------------------------------------------------
 
 SUB analyzeJsonFields(p3_table, p3_position, p3_keyField)
@@ -163,7 +160,7 @@ END SUB
 
 //---------------------------------------------------------------------
 
-SUB importJson(p1_var_or_file, p1_source, p1_table)
+SUB importJson(p1_source, p1_table, p1_startPos)
 
     // Sub to import JSON from a VAR or a FILE 
     
@@ -172,29 +169,29 @@ SUB importJson(p1_var_or_file, p1_source, p1_table)
     // is the starting point. 
     
     // Parameters:
-    // 1. 'VAR' or 'FILE', defines the type of the 2nd parameter
-    // 2. either a lib://...json string of a lib-path to a .json file
+    // 1. either a lib://...json string of a lib-path to a .json file
     //    or a variable that contains the entire JSON object from [..] or {..}
-    // 3. The name of the in-memory table to load the JSON to; note, there
+    // 2. The name of the in-memory table to load the JSON to; note, there
     //    will be more tables when the JSON object has subobjects, subarrays
-    //    but they all will start with the given name (3rd parameter)
+    //    but all table-names will start with the given name (p1_table)
+    // 3. starting position, will default to "Root" if omitted ... the word
+    //    Root must not be part of the starting position, so argument "data"
+    //    will internally translate into "Root/data" 
 
-    IF p1_var_or_file LIKE 'VAR*' THEN
-        IF NOT IsJson(p1_source) THEN        
-            [Error in importJson: 2nd parameter does not contain valid JSON.];
-        END IF
+    IF IsJson(p1_source) THEN        
         LET v1_FROM = 'INLINE `$(p1_source)`';
-    ELSEIF p1_var_or_file LIKE 'VAR*' THEN
+    ELSEIF p1_source LIKE 'lib:*' THEN
         LET v1_FROM = 'FROM [$(p1_source)]';
     ELSE
-        [Error in SUB importJson: 1st parameter is neither 'VAR' nor 'FILE'.];
+        [Error in SUB importJson: 1st parameter is neither a file connection nor Json content.];
     END IF
     
     [~tLoadNext]: 
-    LOAD * INLINE [
-        __tableName, __jsonPos, __keyField
-        $(p1_table), Root
-    ];
+    LOAD 
+    	'$(p1_table)'                                                     AS __tableName 
+        ,'Root' & If(Len('$(p1_startPos)'), '/') & '$(p1_startPos)'       AS __jsonPos
+        , If(Len('$(p1_startPos)'), SubField('$(p1_startPos)', '/', -1))  AS __keyField
+    AUTOGENERATE(1);
 
     LET v1_impJsonPosCalls = 0;  // just for trace-log a counter of how many times 
 
@@ -216,7 +213,7 @@ SUB importJson(p1_var_or_file, p1_source, p1_table)
         DROP TABLE [~tLoadNext];
         RENAME TABLE [~removing_entry] TO [~tLoadNext];
 
-//  IF v1_impJsonPosCalls = 6 THEN
+//  IF v1_impJsonPosCalls = 1 THEN
 //   EXIT SCRIPT;
 //  END IF
 
