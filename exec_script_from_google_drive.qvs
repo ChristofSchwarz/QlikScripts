@@ -1,6 +1,8 @@
-SUB GetAllScripts(_connection1, _connection2, _folder)
+SUB GetAllScripts(_connection1, _connection2, _folder, _pattern)
 
 /*
+will load and execute all script files (define file pattern as 4th argument e.g. '*.qvs'
+
 needs two connection to Google Drive
 - Google Drive & Spreadsheets connection to read meta data about the Google Drive (file list/folder list)
 - Google Drive connection to extract the text files
@@ -10,7 +12,7 @@ and a variable vAllScripts is set to call the vScripts.
 
 So to execute script from Google Drive Folder do the following 2 commands:
 
-CALL GetAllScripts('GDrive_meta_connection', 'GDrive_files_connection', 'MyScriptFolder');
+CALL GetAllScripts('GDrive_meta_connection', 'GDrive_files_connection', 'rootfolder/subfolder', '*.qvs');
 $(vAllScripts);
 
 One script file must not exceed 64kB
@@ -18,44 +20,72 @@ One script file must not exceed 64kB
 */
 	LIB CONNECT TO '$(_connection1)';
     [~gDriveContent]: 
-    LOAD *, If(mimeType LIKE '*folder*' AND (title LIKE '$(_folder)' OR id LIKE '$(_folder)'), id) AS folderId;
-    SELECT title, id, mimeType, parents_id FROM ListFiles;
-
+    HIERARCHY (id, parents_id, title, 'parent_name', title, 'path', '/', 'hierarchy_level')
+	LOAD
+		id, title, parents_id, 
+        if(mimeType like '*folder*', id) AS folderId,
+        if(NOT mimeType like '*folder*', title) AS fileName
+    WHERE
+    	NOT labels_trashed LIKE 'true'
+    ;
+    SELECT 
+    	title, id, mimeType, parents_id, labels_trashed
+    FROM 
+    	ListFiles
+    WITH PROPERTIES (
+        driveId='',
+        query=''
+    );
+        
+	// reduce the full list of files to the ones inside and below the given _folder
+	INNER JOIN ([~gDriveContent])
+    LOAD DISTINCT 
+    	path
+    RESIDENT
+    	[~gDriveContent]
+    WHERE 
+    	path LIKE '$(_folder)*';
+ 
     IF FieldValueCount('folderId') = 0 THEN 
-        [Folder $(_folder) not found in connection $(_connection1)];
+        [Folder "$(_folder)" not found in connection $(_connection1)];
     ELSEIF FieldValueCount('folderId') > 1 THEN 
-        [More than one folder $(_folder) found in connection $(_connection1)];
+        [More than one folder "$(_folder)" found in connection $(_connection1)];
     ELSE
-        LET _folder = FieldValue('folderId', 1);
+        LET v_GAS_folderId = FieldValue('folderId', 1);
+        TRACE Folder "$(_folder)" has id $(v_GAS_folder);
+        
         LET vAllScripts = '';
-        INNER JOIN ([~gDriveContent])
-        LOAD '$(_folder)' AS parents_id AUTOGENERATE(1);
         
         [~scriptFiles]: 
         LOAD title AS [~scriptFileName] 
         RESIDENT [~gDriveContent] 
-        WHERE title LIKE '*.qvs' 
+        WHERE title LIKE '$(_pattern)' 
         ORDER BY title ASC;
         
-        FOR v_GAS_i = 1 TO FieldValueCount('~scriptFileName')
-            LET v_GAS_FileName = FieldValue('~scriptFileName', v_GAS_i);
-            
-            reading:
-            LOAD Concat(@1,CHR(10),RecNo()) AS [$script]
-            FROM [lib://$(_connection2)/$(_folder)/$(v_GAS_FileName)]
-            (txt, utf8, no labels, delimiter is '\n', no quotes);
-            
-            LET vScript$(v_GAS_i) = Peek('$script');
-            DROP TABLE reading;
-            
-            LET vAllScripts = vAllScripts & '$' & '(vScript$(v_GAS_i));' & CHR(10)
-            	& 'LET vScript$(v_GAS_i) = Null();' & CHR(10);
-        NEXT v_GAS_i
-        
-        TRACE GetAllScripts found $(v_GAS_i) *.qvs files in folder $(_folder);
-        
+        IF NoOfRows('~scriptFiles') = 0 THEN
+        	[No $(_pattern) script files found in folder $(_folder)];
+        ELSE
+            FOR v_GAS_i = 1 TO FieldValueCount('~scriptFileName')
+                LET v_GAS_FileName = FieldValue('~scriptFileName', v_GAS_i);
+
+                reading:
+                LOAD Concat(@1,CHR(10),RecNo()) AS [$script]
+                FROM [lib://$(_connection2)/$(v_GAS_folderId)/$(v_GAS_FileName)]
+                (txt, utf8, no labels, delimiter is '\n', no quotes);
+
+                LET vScript$(v_GAS_i) = Peek('$script');
+                DROP TABLE reading;
+
+                LET vAllScripts = vAllScripts & 'TRACE executing script $(_folder)/$(v_GAS_FileName);' & CHR(10)
+                    & '$' & '(vScript$(v_GAS_i));' & CHR(10)
+                    & 'LET vScript$(v_GAS_i) = Null();' & CHR(10);
+            NEXT v_GAS_i
+
+            TRACE GetAllScripts found $(v_GAS_i) *.qvs files in folder $(_folder);
+        END IF
         LET v_GAS_i = Null();
         LET v_GAS_FileName = Null();
+		LET v_GAS_folderId = Null();
     END IF
     DROP TABLES [~scriptFiles], [~gDriveContent];
 END SUB
