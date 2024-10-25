@@ -1,3 +1,5 @@
+LET vAllScripts = '/* please call SUB GetScriptsFromGoogleDrive */'; 
+
 SUB GetScriptsFromGoogleDrive(_connection1, _connection2, _folder, _pattern)
 
 /*
