@@ -1,3 +1,4 @@
+LET vAllScripts = '/* please call SUB GetScriptsFromSharepoint */'; 
 
 SUB GetScriptsFromSharepoint(_connection1, _connection2, _site, _folder, _pattern)
 
