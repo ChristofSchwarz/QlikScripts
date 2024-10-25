@@ -1,0 +1,86 @@
+
+SUB GetScriptsFromSharepoint(_connection1, _connection2, _site, _folder, _pattern)
+
+/*
+will load and execute all script files (define file pattern as 4th argument e.g. '*.qvs'
+
+needs two connection to Sharepoint
+- metadata connection to Sharepoint (file folder contents)
+- Sharepoint Drive connection to extract the text files
+
+All *.qvs files found are put into variables vScript1, vScript2 ... vScriptN (alphabetically sorted)
+and a variable vAllScripts is set to call the vScripts. 
+
+So to execute script from Sharepoint do the following 2 commands:
+
+CALL GetScriptsFromSharepoint('Sharepoint_meta_connection', 'Sharepoint_files_connection', 'sites/team', 'folder/subfolder', '*.qvs');
+$(vAllScripts);
+
+One script file must not exceed 64kB
+
+*/
+	// Add a leading / to site and folder
+	
+	LET v_priv_SharepointSite = If(Left(_site, 1) <> '/', '/') & _site;
+	LET v_priv_SharepointFolder = If(Left(_folder, 1) <> '/', '/') & _folder;
+	
+	// remove a trailling / from folder if provided in the param
+	
+	IF Right(v_priv_SharepointFolder, 1) = '/' THEN
+		LET v_priv_SharepointFolder = Left(v_priv_SharepointFolder, Len(v_priv_SharepointFolder) - 1);
+	ENDIF
+	
+	LIB CONNECT TO '$(_connection1)';
+    
+	[~folderContent]: 
+	SELECT Name
+	FROM ListFiles
+	WITH PROPERTIES (
+		subSite='$(v_priv_SharepointSite)',
+		folder='$(v_priv_SharepointSite)$(v_priv_SharepointFolder)',
+		maxResults=''
+	);
+	DISCONNECT;
+	
+	[~scriptFiles]: 
+	LOAD 
+		Name AS [~scriptFileName]
+	RESIDENT
+		[~folderContent]
+	WHERE
+		Name LIKE '$(_pattern)'
+	ORDER BY
+		Name ASC;
+
+	DROP TABLE [~folderContent];
+	    
+	IF NoOfRows('~scriptFiles') = 0 THEN
+		[No $(_pattern) script files found in folder $(_folder)];
+	ELSE
+		FOR v_GAS_i = 1 TO FieldValueCount('~scriptFileName')
+			LET v_GAS_FileName = FieldValue('~scriptFileName', v_GAS_i);
+
+			reading:
+			LOAD Concat(@1,CHR(10),RecNo()) AS [$script]
+			FROM [lib://$(_connection2)$(v_priv_SharepointFolder)/$(v_GAS_FileName)]
+			(txt, utf8, no labels, delimiter is '\n', no quotes);
+
+			LET vScript$(v_GAS_i) = Peek('$script');
+			DROP TABLE reading;
+
+			LET vAllScripts = vAllScripts & 'TRACE executing script $(_folder)/$(v_GAS_FileName);' & CHR(10)
+				& '$' & '(vScript$(v_GAS_i));' & CHR(10)
+				& 'LET vScript$(v_GAS_i) = Null();' & CHR(10);
+		NEXT v_GAS_i
+
+		TRACE GetAllScripts found $(v_GAS_i) *.qvs files in folder $(_folder);
+	END IF
+    
+	LET v_GAS_i = Null();
+    LET v_GAS_FileName = Null();
+	LET v_priv_SharepointSite = Null();
+	LET v_priv_SharepointFolder = Null();
+	
+    DROP TABLES [~scriptFiles];
+	
+END SUB
