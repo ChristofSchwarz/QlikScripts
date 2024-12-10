@@ -1,0 +1,56 @@
+
+SUB CanJoinOn ($tab1, $tab2, $commonField1, $commonField2, $commonField3, $commonField4, $commonField5)
+
+	/*
+    provide two tables that you plan to join, add 1 .. 5 fields which you expect that the two tables
+    would have in common and, hence, over which the join will happen. 
+    
+    If there are any differences in the effective list of common fields between the two tables in 
+    comparision to what you expected, the script will stop printing the error.
+    */
+    
+	// Find out which fields $tab1 and $tab2 have in common
+	[~commonFields]:
+	LOAD FieldName(RecNo(), '$($tab1)') AS [~commonField]
+    AUTOGENERATE (NoOfFields('$($tab1)'));
+	INNER JOIN 
+    LOAD FieldName(RecNo(), '$($tab2)') AS [~commonField]
+    AUTOGENERATE (NoOfFields('$($tab2)'));
+	LEFT JOIN LOAD 1 AS [~isEffective] AUTOGENERATE(1);
+    
+	[~expectedCommonFields]:
+	LOAD * INLINE [$($commonField1), $($commonField2), $($commonField3), $($commonField4), $($commonField5)];
+    
+    OUTER JOIN ([~commonFields])
+    LOAD FieldName(RecNo(), '~expectedCommonFields') AS [~commonField], 1 AS [~isExpected]
+    AUTOGENERATE (NoOfFields('~expectedCommonFields'));
+	DROP TABLE [~expectedCommonFields];
+	
+    [~commonFieldsAggregated]:
+    LOAD Concat('[' & [~commonField] & ']', ' , ') AS [~effectiveCommonFields]
+    RESIDENT [~commonFields] 
+    WHERE [~isEffective] = 1;
+    LEFT JOIN
+    LOAD Concat('[' & [~commonField] & ']', ' , ') AS [~expectedCommonFields]
+    RESIDENT [~commonFields] 
+    WHERE [~isExpected] = 1;
+    
+    LET priv_effectiveCommonFields = Peek('~effectiveCommonFields', -1, '~commonFieldsAggregated');
+    LET priv_expectedCommonFields = Peek('~expectedCommonFields', -1, '~commonFieldsAggregated');
+    
+    IF priv_effectiveCommonFields <> priv_expectedCommonFields THEN
+    	TRACE `The tables '$($tab1)' and '$($tab2)' have the following field(s) in common:
+$(priv_effectiveCommonFields)
+but you wanted the join on those field(s)
+$(priv_expectedCommonFields)
+so the script is stopped to avoid undesired join effects.`;
+        [abort here];
+    ELSE
+    	TRACE `The tables '$($tab1)' and '$($tab2)' will be joined on their common field(s)
+$(priv_effectiveCommonFields)`;
+    END IF
+    
+    LET priv_effectiveCommonFields = Null();
+    LET priv_expectedCommonFields = Null();
+    
+END SUB
