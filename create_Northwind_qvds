@@ -1,0 +1,119 @@
+
+LIB CONNECT TO 'REST'; // REST GET connection with "allow WITH CONNECTION" enabled 
+LET vSource = 'https://raw.githubusercontent.com/graphql-compose/graphql-compose-examples/refs/heads/master/examples/northwind/data/csv';
+
+
+categories:
+SELECT 
+"categoryID","categoryName","description"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/categories.csv" );
+
+DROP FIELD __extra_; 
+STORE categories INTO [lib://Training/Northwind/categories.qvd] (qvd);
+
+employees:
+SELECT
+"employeeID","lastName","firstName","title","titleOfCourtesy","birthDate","hireDate","address","city","region","postalCode","country","homePhone","extension","notes","reportsTo"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/customers.csv" );
+
+DROP FIELD __extra_; 
+STORE employees INTO [lib://Training/Northwind/customers.qvd] (qvd);
+
+employee_territories:
+SELECT
+"employeeID","territoryID"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/employee_territories.csv" );
+
+DROP FIELD __extra_; 
+STORE employee_territories INTO [lib://Training/Northwind/employee_territories.qvd] (qvd);
+
+orders:
+SELECT
+"orderID","customerID","employeeID","orderDate","requiredDate","shippedDate","shipVia","freight","shipName","shipAddress","shipCity","shipRegion","shipPostalCode","shipCountry"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/orders.csv" );
+
+DROP FIELD __extra_; 
+STORE orders INTO [lib://Training/Northwind/orders.qvd] (qvd);
+
+
+order_details:
+SELECT
+"orderID","productID","unitPrice","quantity","discount"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/order_details.csv" );
+
+DROP FIELD __extra_; 
+STORE order_details INTO [lib://Training/Northwind/order_details.qvd] (qvd);
+
+QUALIFY 'unitPrice';
+products:
+SELECT
+"productID","productName","supplierID","categoryID","quantityPerUnit","unitPrice","unitsInStock","unitsOnOrder","reorderLevel","discontinued"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/products.csv" );
+
+DROP FIELD __extra_; 
+STORE orders INTO [lib://Training/Northwind/customers.qvd] (qvd);
+
+
+territories:
+SELECT
+"territoryID","territoryDescription","regionID"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/territories.csv" );
+
+DROP FIELD __extra_; 
+STORE territories INTO [lib://Training/Northwind/territories.qvd] (qvd);
+
+
+regions:
+SELECT
+"regionID","regionDescription"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/regions.csv" );
+
+DROP FIELD __extra_; 
+STORE regions INTO [lib://Training/Northwind/regions.qvd] (qvd);
+
+
+// QUALIFY *;
+// UNQUALIFY '*ID', '__extra_';
+suppliers:
+SELECT
+"supplierID","companyName","contactName","contactTitle","address","city","region","postalCode","country","phone","fax"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/suppliers.csv" );
+
+DROP FIELD __extra_; 
+STORE suppliers INTO [lib://Training/Northwind/suppliers.qvd] (qvd);
+
+
+shippers:
+SELECT
+"shipperID","companyName","phone"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/shippers.csv" );
+
+DROP FIELD __extra_; 
+STORE shippers INTO [lib://Training/Northwind/shippers.qvd] (qvd);
+
+
+// QUALIFY *;
+// UNQUALIFY '*ID', '__extra_';
+
+
+customers:
+SELECT
+"customerID","companyName","contactName","contactTitle","address","city","region","postalCode","country","phone","fax"
+FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+WITH CONNECTION ( URL "$(vSource)/customers.csv" );
+
+DROP FIELD __extra_; 
+STORE customers INTO [lib://Training/Northwind/customers.qvd] (qvd);
+
+
+EXIT SCRIPT;
