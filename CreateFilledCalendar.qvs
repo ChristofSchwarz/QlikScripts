@@ -1,0 +1,36 @@
+ 
+
+SUB CreateFilledCalendar(paramDateField) 
+  TRACE Looking for Min/Max von $(paramDateField)...; 
+
+  tmpMinMaxDate: 
+  LOAD 
+       Max(FieldValue('$(paramDateField)',RecNo())) as MaxDate, 
+       Min(FieldValue('$(paramDateField)',RecNo())) as MinDate 
+  AUTOGENERATE FieldValueCount('$(paramDateField)'); 
+
+  LET vCalMinDate= Floor(peek('MinDate', 0, 'tmpMinMaxDate')); 
+  // Let vCalMaxDate= Floor(YearEnd(peek('MaxDate', 0, 'MinMaxDate'))); 
+  LET vCalMaxDate= Floor(peek('MaxDate', 0, 'tmpMinMaxDate')); 
+
+  DROP TABLE tmpMinMaxDate; 
+
+  LET vTrace = 'Min: ' & Date(vCalMinDate) & ' Max: ' & Date(vCalMaxDate); 
+  TRACE [$(vTrace)]; 
+
+  IF Alt(TableNumber('tmpCalendarFromMinToMax'),0) THEN 
+
+    // if tmpCalendarFromMinToMax already exists, drop it 
+    DROP TABLE tmpCalendarFromMinToMax; 
+
+  END IF 
+  
+  tmpCalendarFromMinToMax: 
+  LOAD 
+      RowNo() -1 + $(vCalMinDate) as tmpRunningDate 
+  AUTOGENERATE ($(vCalMaxDate) - $(vCalMinDate) + 1 ); 
+
+END SUB 
+ 
+
+CALL CreateFilledCalendar('%MASTERDATE'); 
