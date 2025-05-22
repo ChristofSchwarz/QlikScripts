@@ -1,6 +1,4 @@
- 
-
-SUB CreateFilledCalendar(paramDateField) 
+SUB CreateFilledCalendar(paramDateField, paramDateFormat) 
   TRACE Looking for Min/Max von $(paramDateField)...; 
 
   tmpMinMaxDate: 
@@ -27,10 +25,9 @@ SUB CreateFilledCalendar(paramDateField)
   
   tmpCalendarFromMinToMax: 
   LOAD 
-      RowNo() -1 + $(vCalMinDate) as tmpRunningDate 
+      Date(RowNo() -1 + $(vCalMinDate), '$(paramDateFormat)') as [$(paramDateField)] 
   AUTOGENERATE ($(vCalMaxDate) - $(vCalMinDate) + 1 ); 
 
 END SUB 
  
-
-CALL CreateFilledCalendar('%MASTERDATE'); 
+CALL CreateFilledCalendar('orderDate', 'DD.MM.YYYY'); 
